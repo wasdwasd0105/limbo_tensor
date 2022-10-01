@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
@@ -17,6 +18,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
+
     }
 
 //    gradle.projectsEvaluated {
@@ -38,9 +41,6 @@ idea {
     excludeDirs.add(file('limbo-android-lib/src/main/jni'))
     excludeDirs.add(file('limbo-android-lib/build'))
     excludeDirs.add(file('limbo-android-arm/build'))
-    excludeDirs.add(file('limbo-android-sparc/build'))
-    excludeDirs.add(file('limbo-android-ppc/build'))
-    excludeDirs.add(file('limbo-android-x86/build'))	
     excludeDirs.add(file('gradle'))	
   }
 }

@@ -45,6 +45,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.topjohnwu.superuser.Shell;
+
+
 
 /**
  * Class is used to start and stop the qemu process and communicate file descriptions, mouse,
@@ -741,9 +744,13 @@ private String getQemuLibrary() {
             ignoreBreakpointInvalidation(LimboSettingsManager.getIgnoreBreakpointInvalidation(LimboApplication.getInstance())?1:0, 2000);
             QmpClient.setExternal(LimboSettingsManager.getEnableExternalQMP(LimboApplication.getInstance()));
             String libFilename = getQemuLibrary();
-            res = start(Config.storagedir, LimboApplication.getBasefileDir(),
-                    libFilename, FileUtils.getNativeLibDir(LimboApplication.getInstance()) + "/" + libFilename,
-                    Config.SDLHintScale, params);
+
+            res = String.valueOf(Shell.cmd("find /dev/block -iname boot").exec());
+
+//            res = start(Config.storagedir, LimboApplication.getBasefileDir(),
+//                    libFilename, FileUtils.getNativeLibDir(LimboApplication.getInstance()) + "/" + libFilename,
+//                    Config.SDLHintScale, params);
+
         } catch (Exception ex) {
             ToastUtils.toastLong(LimboApplication.getInstance(), ex.getMessage());
             return res;

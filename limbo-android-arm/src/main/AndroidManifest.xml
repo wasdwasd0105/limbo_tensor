@@ -7,12 +7,12 @@
 
     <application
         tools:replace="android:label"
-        android:label="Limbo ARM Emulator"
+        android:label="Limbo ARM64 KVM QEMU"
         >
         <activity
             android:name="LimboEmuActivity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize"
-            android:label="Limbo ARM"
+            android:label="Limbo pKVM"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
