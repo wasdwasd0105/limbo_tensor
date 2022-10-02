@@ -36,7 +36,7 @@ public class Machine extends Observable {
     private int enableVNC;
     private String arch;
     private String machineType;
-    private String cpu = "Default";
+    private String cpu = "host";
     private int cpuNum = 1;
     private int memory = 128;
     private int enableMTTCG;

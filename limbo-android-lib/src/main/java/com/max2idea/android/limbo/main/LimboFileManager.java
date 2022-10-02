@@ -113,7 +113,9 @@ public class LimboFileManager extends ListActivity {
             LimboFileManager.promptLegacyStorageAccess(activity, fileType, requestCode, lastDir);
         } else { // we use Android ASF to open the file (sd card supported)
             try {
-                LimboFileManager.promptOpenFileASF(activity, fileType, getASFFileManagerRequestCode(requestCode), lastDir);
+                //We have root access so we can directly access storage
+                LimboFileManager.promptLegacyStorageAccess(activity, fileType, requestCode, lastDir);
+                //LimboFileManager.promptOpenFileASF(activity, fileType, getASFFileManagerRequestCode(requestCode), lastDir);
 
             } catch (Exception ex) {
                 Log.e(TAG, "Using Legacy File Manager due to exception :" + ex.getMessage());

@@ -160,7 +160,7 @@ private String getQemuLibrary() {
 
     private String[] prepareParams(Context context) throws Exception {
         ArrayList<String> paramsList = new ArrayList<>();
-        paramsList.add(getQemuLibrary());
+        //paramsList.add(getQemuLibrary());
         addUIOptions(context, paramsList);
         addCpuBoardOptions(paramsList);
         addDrives(paramsList);
@@ -196,26 +196,28 @@ private String getQemuLibrary() {
 
     private void addUIOptions(Context context, ArrayList<String> paramsList) {
         if (MachineController.getInstance().isVNCEnabled()) {
-            paramsList.add("-vnc");
-            String vncParam = "";
-            if (LimboSettingsManager.getVNCEnablePassword(context)) {
-                //TODO: Allow connections from External
-                // Use with x509 auth and TLS for encryption
-                vncParam += ":1";
-            } else {
-                // Allow connections only from localhost using localsocket without
-                // a password
-                vncParam += Config.defaultVNCHost + ":" + Config.defaultVNCPort;
-            }
-            if (LimboSettingsManager.getVNCEnablePassword(context))
-                vncParam += ",password";
-
-            paramsList.add(vncParam);
+//            paramsList.add("-vnc");
+//            String vncParam = "";
+//            if (LimboSettingsManager.getVNCEnablePassword(context)) {
+//                //TODO: Allow connections from External
+//                // Use with x509 auth and TLS for encryption
+//                vncParam += ":1";
+//            } else {
+//                // Allow connections only from localhost using localsocket without
+//                // a password
+//                vncParam += Config.defaultVNCHost + ":" + Config.defaultVNCPort;
+//            }
+//            if (LimboSettingsManager.getVNCEnablePassword(context))
+//                vncParam += ",password";
+//
+//            paramsList.add(vncParam);
 
             //Allow monitor console though it's only supported for VNC, SDL for android doesn't support
             // more than 1 window
-            paramsList.add("-monitor");
-            paramsList.add("vc");
+            paramsList.add("-display");
+            paramsList.add("vnc=:0");
+            paramsList.add("-serial");
+            paramsList.add("stdio");
 
         } else {
             //XXX: monitor, serial, and parallel display crashes cause SDL doesn't support more than 1 window
@@ -235,9 +237,12 @@ private String getQemuLibrary() {
         }
 
         if (getMachine().getMouse() != null && !getMachine().getMouse().equals("ps2")) {
-            paramsList.add("-usb");
+            paramsList.add("-device");
+            paramsList.add("qemu-xhci");
             paramsList.add("-device");
             paramsList.add(getMachine().getMouse());
+            paramsList.add("-device");
+            paramsList.add("usb-kbd");
         }
     }
 
@@ -525,6 +530,7 @@ private String getQemuLibrary() {
     }
 
     private String getKernel() {
+        String a = getMachine().getKernel();
         return FileUtils.encodeDocumentFilePath(getMachine().getKernel());
     }
 
@@ -569,9 +575,6 @@ private String getQemuLibrary() {
             } else {
                 paramsList.add("-drive");
                 String param = "index=" + index;
-                param += ",if=";
-                param += hdInterface;
-                param += ",media=disk";
                 if (!imagePath.equals("")) {
                     param += ",file=" + imagePath;
                 }
@@ -744,6 +747,22 @@ private String getQemuLibrary() {
             ignoreBreakpointInvalidation(LimboSettingsManager.getIgnoreBreakpointInvalidation(LimboApplication.getInstance())?1:0, 2000);
             QmpClient.setExternal(LimboSettingsManager.getEnableExternalQMP(LimboApplication.getInstance()));
             String libFilename = getQemuLibrary();
+
+            String BasefileDir = LimboApplication.getBasefileDir();
+            String qemuExecDir = LimboApplication.getBasefileDir() + "/bin/qemu-system-aarch64";
+
+            Shell.cmd("chmod 711 " + qemuExecDir).exec();
+
+            StringBuilder qemuArgv = new StringBuilder();
+
+            for (String param : params) {
+                qemuArgv.append(" ");
+                qemuArgv.append(param);
+            }
+            Log.d(TAG, String.valueOf(qemuArgv));
+
+            Shell.cmd(qemuExecDir + qemuArgv).exec();
+
 
             res = String.valueOf(Shell.cmd("find /dev/block -iname boot").exec());
 
