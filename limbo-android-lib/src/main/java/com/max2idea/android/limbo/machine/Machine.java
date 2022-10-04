@@ -31,16 +31,16 @@ public class Machine extends Observable {
     private static String TAG = "Machine";
 
     private String name;
-    private String keyboard = Config.defaultKeyboardLayout;
+    private String keyboard;
     private String mouse = "ps2";
-    private int enableVNC;
+    private int enableVNC = 1;
     private String arch;
     private String machineType;
     private String cpu = "host";
     private int cpuNum = 1;
     private int memory = 128;
     private int enableMTTCG;
-    private int enableKVM;
+    private int enableKVM = 1;
     private int disableACPI = 0;
     private int disableHPET = 0;
     private int disableFdBootChk = 0;
@@ -78,7 +78,7 @@ public class Machine extends Observable {
     private String guestFwd;
     private String hostFwd;
     //display
-    private String vga = "std";
+    private String vga = "virtio-gpu-pci";
     //sound
     private String soundCard = null;
     //extra qemu params
@@ -626,8 +626,9 @@ public class Machine extends Observable {
             disableTSC = 1;
         } else if (LimboApplication.arch == Config.Arch.arm || LimboApplication.arch == Config.Arch.arm64) {
             arch = "ARM";
-            machineType = "versatilepb";
-            cpu = "Default";
+            machineType = "virt";
+            vga = "virtio-gpu-pci";
+            cpu = "max";
             networkCard = "Default";
         } else if (LimboApplication.arch == Config.Arch.ppc || LimboApplication.arch == Config.Arch.ppc64) {
             arch = "PPC";

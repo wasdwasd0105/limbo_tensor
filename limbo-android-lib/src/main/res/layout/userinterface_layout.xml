@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:gravity="right|center_vertical"
-                android:text="Keyboard"
+                android:text="Serial Out"
                 android:textSize="15sp" />
 
             <Spinner

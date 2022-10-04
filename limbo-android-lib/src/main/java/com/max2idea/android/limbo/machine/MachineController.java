@@ -26,6 +26,7 @@ import com.limbo.emu.lib.R;
 import com.max2idea.android.limbo.files.FileUtils;
 import com.max2idea.android.limbo.jni.MachineExecutorFactory;
 import com.max2idea.android.limbo.main.LimboApplication;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -119,6 +120,7 @@ public class MachineController {
     }
 
     void stopvm() {
+        //Shell.cmd("killall qemu-system-aarch64").exec();
         machineExecutor.stopvm(0);
     }
 

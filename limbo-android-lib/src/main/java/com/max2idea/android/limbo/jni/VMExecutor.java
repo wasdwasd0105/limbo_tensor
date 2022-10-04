@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -64,6 +65,7 @@ class VMExecutor extends MachineExecutor {
     private static int vm_height;
     //TODO: make this a proper singleton but the views should not be able to access it
     private static VMExecutor mInstance;
+    private Shell qemuShell;
 
     VMExecutor(MachineController machineController) {
         super(machineController);
@@ -109,6 +111,8 @@ class VMExecutor extends MachineExecutor {
     public native void nativeRefreshScreen(int value);
 
     public native void nativeEnableAaudio(int value, String aaudioLibName, String aaudioLibPath);
+
+
 
     /**
      * Prints parameters in qemu format
@@ -216,15 +220,10 @@ private String getQemuLibrary() {
             // more than 1 window
             paramsList.add("-display");
             paramsList.add("vnc=:0");
-            paramsList.add("-serial");
-            paramsList.add("stdio");
 
         } else {
             //XXX: monitor, serial, and parallel display crashes cause SDL doesn't support more than 1 window
             paramsList.add("-monitor");
-            paramsList.add("none");
-
-            paramsList.add("-serial");
             paramsList.add("none");
 
             paramsList.add("-parallel");
@@ -232,8 +231,8 @@ private String getQemuLibrary() {
         }
 
         if (getMachine().getKeyboard() != null) {
-            paramsList.add("-k");
-            paramsList.add(getMachine().getKeyboard());
+            paramsList.add("-serial");
+            paramsList.add(getMachine().getKeyboard() + ",server,nowait");
         }
 
         if (getMachine().getMouse() != null && !getMachine().getMouse().equals("ps2")) {
@@ -299,8 +298,8 @@ private String getQemuLibrary() {
             paramsList.add("-realtime");
             paramsList.add("mlock=off");
         } else {
-            paramsList.add("-overcommit");
-            paramsList.add("mem-lock=off");
+//            paramsList.add("-overcommit");
+//            paramsList.add("mem-lock=off");
         }
 
         paramsList.add("-rtc");
@@ -760,11 +759,10 @@ private String getQemuLibrary() {
                 qemuArgv.append(param);
             }
             Log.d(TAG, String.valueOf(qemuArgv));
-
             Shell.cmd(qemuExecDir + qemuArgv).exec();
 
+            //qemuShell.newJob().add(qemuExecDir + qemuArgv).exec();
 
-            res = String.valueOf(Shell.cmd("find /dev/block -iname boot").exec());
 
 //            res = start(Config.storagedir, LimboApplication.getBasefileDir(),
 //                    libFilename, FileUtils.getNativeLibDir(LimboApplication.getInstance()) + "/" + libFilename,
@@ -772,9 +770,9 @@ private String getQemuLibrary() {
 
         } catch (Exception ex) {
             ToastUtils.toastLong(LimboApplication.getInstance(), ex.getMessage());
-            return res;
+            return "0";
         }
-        return res;
+        return "VM shutdown";
     }
 
     private void changeVncPass(final Context context, final long delay) {
@@ -810,8 +808,14 @@ private String getQemuLibrary() {
                     QmpClient.sendCommand(QmpClient.getResetCommand());
                 } else {
                     //XXX: Qmp command only halts the VM but doesn't exit so we use force close
-//            QmpClient.sendCommand(QmpClient.powerDown());
-                    stop(restart);
+                    //QmpClient.sendCommand(QmpClient.powerDown());
+                    //stop(restart);
+                    //need to be smarter here
+                    try {
+                        Process su = Runtime.getRuntime().exec("su -c killall qemu-system-aarch64");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
