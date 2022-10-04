@@ -157,7 +157,7 @@ public class Config {
     public static String defaultVNCHost = "127.0.0.1";
     //It seems that new versions of qemu expect a relative number
     //  so we stop using absolute port numbers
-    public static final int defaultVNCPort = 1;
+    public static final int defaultVNCPort = 0;
 
     //Keyboard Layout
     public static String defaultKeyboardLayout = "en-us";

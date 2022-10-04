@@ -759,20 +759,19 @@ private String getQemuLibrary() {
                 qemuArgv.append(param);
             }
             Log.d(TAG, String.valueOf(qemuArgv));
-            Shell.cmd(qemuExecDir + qemuArgv).exec();
+            Shell.Result result;
+            result = Shell.cmd(qemuExecDir + qemuArgv).exec();
 
-            //qemuShell.newJob().add(qemuExecDir + qemuArgv).exec();
-
-
-//            res = start(Config.storagedir, LimboApplication.getBasefileDir(),
-//                    libFilename, FileUtils.getNativeLibDir(LimboApplication.getInstance()) + "/" + libFilename,
-//                    Config.SDLHintScale, params);
+            if (result.isSuccess()){
+                return "VM shutdown";
+            }else{
+                return "QEMU return error!";
+            }
 
         } catch (Exception ex) {
             ToastUtils.toastLong(LimboApplication.getInstance(), ex.getMessage());
-            return "0";
+            return "1";
         }
-        return "VM shutdown";
     }
 
     private void changeVncPass(final Context context, final long delay) {

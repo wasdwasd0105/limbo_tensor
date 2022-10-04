@@ -18,6 +18,7 @@
  */
 package com.max2idea.android.limbo.machine;
 
+import com.limbo.emu.lib.R;
 import com.max2idea.android.limbo.main.Config;
 import com.max2idea.android.limbo.main.LimboApplication;
 
@@ -32,7 +33,7 @@ public class Machine extends Observable {
 
     private String name;
     private String keyboard;
-    private String mouse = "ps2";
+    private String mouse = "usb-tablet";
     private int enableVNC = 1;
     private String arch;
     private String machineType;
