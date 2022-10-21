@@ -75,9 +75,11 @@ public class Machine extends Observable {
     private String append;
     // net
     private String network = null;
-    private String networkCard = "ne2k_pci";
+    private String networkCard = "e1000";
     private String guestFwd;
     private String hostFwd;
+    private String DNS = "8.8.8.8";
+
     //display
     private String vga = "virtio-gpu-pci";
     //sound
@@ -577,6 +579,19 @@ public class Machine extends Observable {
 
     }
 
+    public String getDNS() {
+        return DNS;
+    }
+
+    void setDNS(String hostFwd) {
+        if (this.DNS == null || !this.DNS.equals(hostFwd)) {
+            this.DNS = hostFwd;
+            setChanged();
+            notifyChanged(MachineProperty.DNS, hostFwd);
+        }
+
+    }
+
     public String getExtraParams() {
         return extraParams;
     }
@@ -619,28 +634,12 @@ public class Machine extends Observable {
     }
 
     void setDefaults() {
-        if (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64) {
-            arch = "x86";
-            cpu = "n270";
-            machineType = "pc";
-            networkCard = "Default";
-            disableTSC = 1;
-        } else if (LimboApplication.arch == Config.Arch.arm || LimboApplication.arch == Config.Arch.arm64) {
-            arch = "ARM";
-            machineType = "virt";
-            vga = "virtio-gpu-pci";
-            cpu = "max";
-            networkCard = "Default";
-        } else if (LimboApplication.arch == Config.Arch.ppc || LimboApplication.arch == Config.Arch.ppc64) {
-            arch = "PPC";
-            machineType = "g3beige";
-            networkCard = "Default";
-        } else if (LimboApplication.arch == Config.Arch.sparc || LimboApplication.arch == Config.Arch.sparc64) {
-            arch = "SPARC";
-            vga = "cg3";
-            machineType = "Default";
-            networkCard = "Default";
-        }
+        arch = "ARM";
+        machineType = "virt";
+        vga = "virtio-gpu-pci";
+        cpu = "max";
+        networkCard = "e1000";
+
     }
 
     public String getSoundCard() {

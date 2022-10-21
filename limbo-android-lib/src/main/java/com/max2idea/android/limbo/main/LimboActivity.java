@@ -552,8 +552,7 @@ public class LimboActivity extends AppCompatActivity
                 if (getMachine() == null)
                     return;
                 if (!hasFocus) {
-                    setDNSServer(mDNS.getText().toString());
-                    LimboSettingsManager.setDNSServer(LimboActivity.this, mDNS.getText().toString());
+                    notifyFieldChange(MachineProperty.DNS, mDNS.getText().toString());
                 }
             }
         });
@@ -677,7 +676,7 @@ public class LimboActivity extends AppCompatActivity
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 notifyFieldChange(MachineProperty.ENABLE_KVM, true);
-                mEnableMTTCG.setChecked(false);
+                //mEnableMTTCG.setChecked(false);
             }
         };
 
@@ -709,7 +708,7 @@ public class LimboActivity extends AppCompatActivity
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 notifyFieldChange(MachineProperty.ENABLE_MTTCG, true);
-                mEnableKVM.setChecked(false);
+                //mEnableKVM.setChecked(false);
             }
         };
         DialogInterface.OnClickListener cancelListener =
@@ -874,28 +873,6 @@ public class LimboActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-    }
-
-    protected synchronized void setDNSServer(String string) {
-
-        File resolvConf = new File(LimboApplication.getBasefileDir() + "/etc/resolv.conf");
-        FileOutputStream fileStream = null;
-        try {
-            fileStream = new FileOutputStream(resolvConf);
-            String str = "nameserver " + string + "\n\n";
-            byte[] data = str.getBytes();
-            fileStream.write(data);
-        } catch (Exception ex) {
-            Log.e(TAG, "Could not write DNS to file: " + ex);
-        } finally {
-            if (fileStream != null)
-                try {
-                    fileStream.close();
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
-        }
     }
 
     private void disableListeners() {
@@ -1647,7 +1624,7 @@ public class LimboActivity extends AppCompatActivity
         mNetConfig = findViewById(R.id.netcfgval);
         mNetworkCard = findViewById(R.id.netDevicesVal);
         mDNS = findViewById(R.id.dnsval);
-        setDefaultDNServer();
+        //setDefaultDNServer();
         mHOSTFWD = findViewById(R.id.hostfwdval);
 
         // advanced
@@ -1679,24 +1656,6 @@ public class LimboActivity extends AppCompatActivity
                 && LimboApplication.arch != Config.Arch.arm && LimboApplication.arch != Config.Arch.arm64) {
             mEnableKVMLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void setDefaultDNServer() {
-
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                final String defaultDNSServer = LimboSettingsManager.getDNSServer(LimboActivity.this);
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    public void run() {
-                        // Code here will run in UI thread
-                        mDNS.setText(defaultDNSServer);
-                    }
-                });
-            }
-        });
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-
     }
 
     private void setupSections() {
@@ -2081,6 +2040,11 @@ public class LimboActivity extends AppCompatActivity
         else
             mExtraParams.setText("");
 
+        if (getMachine().getDNS() != null)
+            mDNS.setText(getMachine().getDNS());
+        else
+            mDNS.setText("");
+
         // CDROM
         seMachineDriveValue(FileType.CDROM, getMachine().getCdImagePath());
 
@@ -2429,10 +2393,9 @@ public class LimboActivity extends AppCompatActivity
     }
 
     private void populateRAM() {
-        String[] arraySpinner = new String[4 * 256];
-        arraySpinner[0] = 4 + "";
-        for (int i = 1; i < arraySpinner.length; i++) {
-            arraySpinner[i] = i * 8 + "";
+        String[] arraySpinner = new String[33];
+        for (int i = 1; i < arraySpinner.length + 1; i++) {
+            arraySpinner[i-1] = i * 256 + "";
         }
         ArrayAdapter<String> ramAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, arraySpinner);
         ramAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);

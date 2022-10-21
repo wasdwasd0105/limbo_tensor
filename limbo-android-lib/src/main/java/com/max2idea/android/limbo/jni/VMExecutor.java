@@ -165,18 +165,22 @@ private String getQemuLibrary() {
     private String[] prepareParams(Context context) throws Exception {
         ArrayList<String> paramsList = new ArrayList<>();
         //paramsList.add(getQemuLibrary());
+
         addUIOptions(context, paramsList);
+        addLoaderOptions(paramsList);
         addCpuBoardOptions(paramsList);
+        addAccelerationOptions(paramsList);
         addDrives(paramsList);
         addRemovableDrives(paramsList);
         addBootOptions(paramsList);
         addGraphicsOptions(paramsList);
         addAudioOptions(paramsList);
         addNetworkOptions(paramsList);
-        addGenericOptions(context, paramsList);
-        addStateOptions(paramsList);
-        addAdvancedOptions(paramsList);
-        addAccelerationOptions(paramsList);
+
+        //addGenericOptions(context, paramsList);
+        //addStateOptions(paramsList);
+        //addAdvancedOptions(paramsList);
+
         return paramsList.toArray(new String[0]);
     }
 
@@ -230,19 +234,19 @@ private String getQemuLibrary() {
             paramsList.add("none");
         }
 
+        //paramsList.add("-serial stdio");
         if (getMachine().getKeyboard() != null) {
             paramsList.add("-serial");
             paramsList.add(getMachine().getKeyboard() + ",server,nowait");
         }
 
-        if (getMachine().getMouse() != null && !getMachine().getMouse().equals("ps2")) {
-            paramsList.add("-device");
-            paramsList.add("qemu-xhci");
-            paramsList.add("-device");
-            paramsList.add(getMachine().getMouse());
-            paramsList.add("-device");
-            paramsList.add("usb-kbd");
-        }
+        paramsList.add("-device");
+        paramsList.add("qemu-xhci,id=usb-bus");
+        paramsList.add("-device");
+        paramsList.add(getMachine().getMouse() + ",bus=usb-bus.0");
+        paramsList.add("-device");
+        paramsList.add("usb-kbd,bus=usb-bus.0");
+
     }
 
     private void addAdvancedOptions(ArrayList<String> paramsList) {
@@ -260,9 +264,12 @@ private String getQemuLibrary() {
         }
     }
 
-    private void addGenericOptions(Context context, ArrayList<String> paramsList) {
+    private void addLoaderOptions(ArrayList<String> paramsList) {
         paramsList.add("-L");
-        paramsList.add(LimboApplication.getBasefileDir());
+        paramsList.add(LimboApplication.getBasefileDir() + "/roms");
+    }
+
+    private void addGenericOptions(Context context, ArrayList<String> paramsList) {
         if (LimboSettingsManager.getEnableQmp(context)) {
             paramsList.add("-qmp");
             if (getQMPAllowExternal()) {
@@ -361,21 +368,23 @@ private String getQemuLibrary() {
 
     private void addAccelerationOptions(ArrayList<String> paramsList) {
 
+        // add UEFI option here
+        if (getMachine().getEnableMTTCG() != 0) {
+            String BasefileDir = LimboApplication.getBasefileDir();
+            String UEFIdir = BasefileDir + "/UEFI/edk2_no_var.img";
+            String UEFI_var_dir = BasefileDir + "/UEFI/var.img";
+            paramsList.add("-drive if=pflash,format=raw,unit=0,file=" + UEFIdir + ",readonly=on" );
+            paramsList.add("-drive if=pflash,format=raw,unit=1,file=" + UEFI_var_dir + ",readonly=on");
+        }
+
         // XXX: we add the acceleration options after the extra params
         // this is due to QEMU applying the first instance of this option
         // so the extra params cannot override it.
         if (getMachine().getEnableKVM() != 0) {
-            paramsList.add("-enable-kvm");
-        } else {
-            paramsList.add("-accel");
-            String tcgParams = "tcg";
-            if (getMachine().getEnableMTTCG() != 0) {
-                tcgParams += ",thread=multi";
-            } else {
-                tcgParams += ",thread=single";
-            }
-            paramsList.add(tcgParams);
+            paramsList.add("-accel kvm");
+            paramsList.add("-accel tcg,tb-size=1024");
         }
+
     }
 
     private String getMachineType() {
@@ -394,48 +403,15 @@ private String getQemuLibrary() {
     }
 
     private void addNetworkOptions(ArrayList<String> paramsList) throws Exception {
+        if (getMachine().getNetwork() == null || getMachine().getNetwork().equals("None")) {
+            paramsList.add("-nic none");
+        } else if (getMachine().getNetwork().equals("User")) {
+            paramsList.add("-device");
+            String NetworkCard = getMachine().getNetworkCard();
+            paramsList.add(NetworkCard + ",netdev=net0");
 
-        String network = getNetCfg();
-        if (network != null) {
-            paramsList.add("-net");
-            if (network.equals("user")) {
-                String netParams = network;
-                String hostFwd = getHostFwd();
-                if (hostFwd != null) {
-
-                    //hostfwd=[tcp|udp]:[hostaddr]:hostport-[guestaddr]:guestport{,hostfwd=...}
-                    // example forward ssh from guest port 2222 to guest port 22:
-                    // hostfwd=tcp::2222-:22
-                    if (hostFwd.startsWith("hostfwd")) {
-                        throw new Exception("Invalid format for Host Forward, should be: tcp:hostport1:guestport1,udp:hostport2:questport2,...");
-                    }
-                    String[] hostFwdParams = hostFwd.split(",");
-                    for (int i = 0; i < hostFwdParams.length; i++) {
-                        netParams += ",";
-                        String[] hostfwdparam = hostFwdParams[i].split(":");
-                        netParams += ("hostfwd=" + hostfwdparam[0] + "::" + hostfwdparam[1] + "-:" + hostfwdparam[2]);
-                    }
-                }
-                paramsList.add(netParams);
-            } else if (network.equals("tap")) {
-                paramsList.add("tap,vlan=0,ifname=tap0,script=no");
-            } else if (network.equals("none")) {
-                paramsList.add("none");
-            } else {
-                //Unknown interface
-                paramsList.add("none");
-            }
-        }
-
-        String networkCard = getNicCard();
-        if (networkCard != null) {
-            paramsList.add("-net");
-            String nicParams = "nic";
-            if (network.equals("tap"))
-                nicParams += ",vlan=0";
-            if (!networkCard.equals("Default"))
-                nicParams += (",model=" + networkCard);
-            paramsList.add(nicParams);
+            paramsList.add("-netdev");
+            paramsList.add("user,id=net0,dns=" + getMachine().getDNS());
         }
     }
 
@@ -475,7 +451,8 @@ private String getQemuLibrary() {
                 //do nothing
             } else if (getMachine().getVga().equals("virtio-gpu-pci")) {
                 paramsList.add("-device");
-                paramsList.add(getMachine().getVga());
+                paramsList.add("virtio-gpu-pci");
+                //paramsList.add(getMachine().getVga());
             } else if (getMachine().getVga().equals("nographic")) {
                 paramsList.add("-nographic");
             } else {
@@ -555,32 +532,10 @@ private String getQemuLibrary() {
 
     public void addHardDisk(ArrayList<String> paramsList, String imagePath, int index, String hdInterface) {
         if (imagePath != null && !imagePath.trim().equals("")) {
-            if (Config.legacyDrives) {
-                switch (index) {
-                    case 0:
-                        paramsList.add("-hda");
-                        break;
-                    case 1:
-                        paramsList.add("-hdb");
-                        break;
-                    case 2:
-                        paramsList.add("-hdc");
-                        break;
-                    case 3:
-                        paramsList.add("-hdd");
-                        break;
-                }
-                paramsList.add(imagePath);
-            } else {
+            paramsList.add("-device nvme,drive=drive" + index +",serial=drive" + index + ",bootindex=" + index+1);
+            if (!imagePath.equals("")) {
                 paramsList.add("-drive");
-                String param = "index=" + index;
-                if (!imagePath.equals("")) {
-                    param += ",file=" + imagePath;
-                }
-                String cache = LimboSettingsManager.getDiskCache(LimboApplication.getInstance());
-                if(cache != null && !cache.equals("default"))
-                    param += ",cache=" + cache;
-                paramsList.add(param);
+                paramsList.add("if=none,media=disk,id=drive" + index + ",file=" + imagePath);
             }
         }
     }
@@ -604,20 +559,9 @@ private String getQemuLibrary() {
     public void addRemovableDrives(ArrayList<String> paramsList) {
         String cdImagePath = getDriveFilePath(getMachine().getCdImagePath());
         if (cdImagePath != null) {
-            if (Config.legacyDrives) {
-                paramsList.add("-cdrom");
-                paramsList.add(cdImagePath);
-            } else {
-                paramsList.add("-drive"); //empty
-                String param = "index=2";
-                param += ",if=";
-                param += getMachine().getCDInterface();
-                param += ",media=cdrom";
-                if (!cdImagePath.equals("")) {
-                    param += ",file=" + cdImagePath;
-                }
-                paramsList.add(param);
-            }
+            paramsList.add("-device usb-storage,drive=cdrom0,removable=true,bootindex=0,bus=usb-bus.0");
+            paramsList.add("-drive");
+            paramsList.add("if=none,media=cdrom,id=cdrom0,file=" + cdImagePath);
         }
 
         String fdaImagePath = getDriveFilePath(getMachine().getFdaImagePath());
@@ -758,7 +702,7 @@ private String getQemuLibrary() {
                 qemuArgv.append(" ");
                 qemuArgv.append(param);
             }
-            Log.d(TAG, String.valueOf(qemuArgv));
+            Log.d(TAG, qemuExecDir + qemuArgv);
             Shell.Result result;
             result = Shell.cmd(qemuExecDir + qemuArgv).exec();
 

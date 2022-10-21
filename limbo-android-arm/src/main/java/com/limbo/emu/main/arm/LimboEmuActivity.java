@@ -22,8 +22,8 @@ public class LimboEmuActivity extends LimboActivity {
 //        else
 //            Config.enableMTTCG = false;
 
-        // we dont need it on kvm
-        Config.enableMTTCG = false;
+        // It is UEFI option
+        Config.enableMTTCG = true;
         Config.machineFolder = Config.machineFolder + "other/arm_machines/";
         Config.osImages.put(getString(R.string.DebianArmLinux), new LinksManager.LinkInfo(getString(R.string.DebianArmLinux),
                 getString(R.string.DebianArmLinuxDescr),

@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:gravity="right|center_vertical"
-                    android:text="Enable  MTTCG"
+                    android:text="Enable UEFI"
                     android:textSize="15sp" />
 
                 <CheckBox

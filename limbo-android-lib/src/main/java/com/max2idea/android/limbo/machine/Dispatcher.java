@@ -215,6 +215,8 @@ public class Dispatcher implements ViewListener {
                 break;
             case EXTRA_PARAMS:
                 getMachine().setExtraParams(convertString(property,value));
+            case DNS:
+                getMachine().setDNS(convertString(property,value));
             default:
                 throw new RuntimeException("Umapped UI field: " + property);
         }
