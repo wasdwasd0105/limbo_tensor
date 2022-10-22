@@ -1,13 +1,9 @@
-# Limbo Emulator (QEMU) for Android
-#
-# For APK Downloads, Guides, and Help visit:
-# https://virtualmachinery.weebly.com
+# QEMU KVM (Limbor) For Tensor-based devices 
 
-Limbo is a QEMU-based emulator for Android supports emulation for these architectures:
-	x86/x86_64
-	ARM/ARM64
-	PowerPC/PowerPC64
-	Sparc
+Limbo for Tensor is a QEMU-based Hypervisor for Tensor-based Google Pixel devices such as Pixel 6 & 7 series
+Limbo utilize Kernal KVM feature from Exception Level 2 hypervisor privilege level. 
+Currently only Google Tensor SOC support the feature. And ROOT access is needed to access Kernal KVM.
 
-For developers read file README.developers for instructions on how to compile on your own
-	and other useful information.
+
+
+
