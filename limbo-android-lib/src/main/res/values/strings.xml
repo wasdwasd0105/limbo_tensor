@@ -149,9 +149,9 @@
     <string name="externalNetworkWarning">Warning! Enabling external network for images you don\'t trust or containing old OSes is not recommended. If not use network \'None\' before running the virtual machine.\n</string>
     <string name="faq">FAQ</string>
     <string name="open">Open</string>
-    <string name="enableMTTCG">Enable MTTCG</string>
-    <string name="enableMTTCGWarning">Warning! Enabling MTTCG under Limbo is not fully tested. \nYou need to have an Android Devices with multi core CPU. If you don\'t know what this is press Cancel.\n\nIf you experience app crashing or freezing disable this option. Do you want to continue?</string>
-    <string name="mttcgHelp">MTTCG Help</string>
+    <string name="enableUEFI">Enable UEFI</string>
+    <string name="enableUEFIWarning">Warning! Enabling UEFI under Limbo is not fully tested. \nYou need to have an Android Devices with multi core CPU. If you don\'t know what this is press Cancel.\n\nIf you experience app crashing or freezing disable this option. Do you want to continue?</string>
+    <string name="UEFIHelp">UEFI Help</string>
     <string name="failToCreateMachineDirError">Could not create internal machine directory</string>
     <string name="externalVNCWarning">VNC connections are Unencrypted therefore NOT secure. Make sure you\'re on a trusted network!\n</string>
     <string name="Password">Password</string>
@@ -170,7 +170,7 @@
     <string name="deleteVMWarning">Delete VM? Only machine definition and state will be deleted, disk images files will not be deleted</string>
     <string name="NoMachineSelected">No Machine selected</string>
     <string name="multipleVCPU">Multiple vCPUs</string>
-    <string name="multipleVCPUWarning">Warning! Setting Multiple Virtual CPUs will NOT result in additional performance unless you use KVM or MTTCG. Your device might even be slow or the Guest OS might hang so it is advised to use 1 CPU. \n\n</string>
+    <string name="multipleVCPUWarning">Warning! Setting Multiple Virtual CPUs will NOT result in additional performance unless you use KVM or UEFI. Your device might even be slow or the Guest OS might hang so it is advised to use 1 CPU. \n\n</string>
     <string name="disableTSCInstructions">If your guest OS is not able to boot check option \'Disable TSC\' and restart the VM.</string>
     <string name="DoYouWantToContinue">Do you want to continue?</string>
     <string name="vCPUHelp">vCPU Help</string>

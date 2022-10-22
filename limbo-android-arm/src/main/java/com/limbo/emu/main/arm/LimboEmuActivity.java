@@ -16,18 +16,13 @@ public class LimboEmuActivity extends LimboActivity {
         Config.enableKVM = true;
         Config.enableEmulatedFloppy = false;
         Config.enableEmulatedSDCard = true;
-        //XXX; only for 64bit hosts, also make sure you have qemu 2.9.1 arm-softmmu and above compiled
-//        if(LimboApplication.isHost64Bit() && Config.enableMTTCG)
-//            Config.enableMTTCG = true;
-//        else
-//            Config.enableMTTCG = false;
 
         // It is UEFI option
-        Config.enableMTTCG = true;
+        Config.enableUEFI = true;
         Config.machineFolder = Config.machineFolder + "other/arm_machines/";
-        Config.osImages.put(getString(R.string.DebianArmLinux), new LinksManager.LinkInfo(getString(R.string.DebianArmLinux),
-                getString(R.string.DebianArmLinuxDescr),
-                "https://github.com/limboemu/limbo/wiki/Debian-ARM-Linux",
+        Config.osImages.put(getString(R.string.UbuntuArmLinux), new LinksManager.LinkInfo(getString(R.string.UbuntuArmLinux),
+                getString(R.string.UbuntuArmLinux),
+                "https://ubuntu.com/download/server/arm",
                 LinksManager.LinkType.ISO));
         super.onCreate(bundle);
         //TODO: change location to something that the user will have access outside of limbo

@@ -266,7 +266,7 @@ private String getQemuLibrary() {
 
     private void addLoaderOptions(ArrayList<String> paramsList) {
         paramsList.add("-L");
-        paramsList.add(LimboApplication.getBasefileDir() + "/roms");
+        paramsList.add(LimboApplication.getBasefileDir());
     }
 
     private void addGenericOptions(Context context, ArrayList<String> paramsList) {
@@ -320,7 +320,7 @@ private String getQemuLibrary() {
 
         //XXX: SMP is not working correctly for some guest OSes
         //so we enable multi core only under KVM
-        // anyway regular emulation is not gaining any benefit unless mttcg is enabled but that
+        // anyway regular emulation is not gaining any benefit unless UEFI is enabled but that
         // doesn't work for x86 guests yet
         if (getMachine().getCpuNum() > 1) {
             paramsList.add("-smp");
@@ -369,7 +369,7 @@ private String getQemuLibrary() {
     private void addAccelerationOptions(ArrayList<String> paramsList) {
 
         // add UEFI option here
-        if (getMachine().getEnableMTTCG() != 0) {
+        if (getMachine().getEnableUEFI() != 0) {
             String BasefileDir = LimboApplication.getBasefileDir();
             String UEFIdir = BasefileDir + "/UEFI/edk2_no_var.img";
             String UEFI_var_dir = BasefileDir + "/UEFI/var.img";
@@ -695,6 +695,7 @@ private String getQemuLibrary() {
             String qemuExecDir = LimboApplication.getBasefileDir() + "/bin/qemu-system-aarch64";
 
             Shell.cmd("chmod 711 " + qemuExecDir).exec();
+            Shell.cmd("pwd").exec();
 
             StringBuilder qemuArgv = new StringBuilder();
 

@@ -192,8 +192,8 @@ public class Dispatcher implements ViewListener {
             case ENABLE_KVM:
                 getMachine().setEnableKVM((convertBoolean(property, value) ? 1 : 0));
                 break;
-            case ENABLE_MTTCG:
-                getMachine().setEnableMTTCG((convertBoolean(property, value) ? 1 : 0));
+            case ENABLE_UEFI:
+                getMachine().setEnableUEFI((convertBoolean(property, value) ? 1 : 0));
                 break;
             case HOSTFWD:
                 getMachine().setHostFwd(convertString(property, value));

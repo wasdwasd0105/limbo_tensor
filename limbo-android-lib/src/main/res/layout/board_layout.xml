@@ -183,7 +183,7 @@
 
 
             <LinearLayout
-                android:id="@+id/mttcgl"
+                android:id="@+id/UEFIl"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
@@ -193,7 +193,7 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/enablemttcgstr"
+                    android:id="@+id/enableUEFIstr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -202,7 +202,7 @@
                     android:textSize="15sp" />
 
                 <CheckBox
-                    android:id="@+id/enablemttcgval"
+                    android:id="@+id/enableUEFIval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"

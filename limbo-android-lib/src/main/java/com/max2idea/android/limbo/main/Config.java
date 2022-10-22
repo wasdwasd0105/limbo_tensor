@@ -168,7 +168,7 @@ public class Config {
     public static boolean enableToggleKeyboard = false;
 
     //override this at the app level it dependes on the host arch
-    public static boolean enableMTTCG = true;
+    public static boolean enableUEFI = true;
 
     public static LinkedHashMap<String, LinksManager.LinkInfo> osImages = new LinkedHashMap<>();
     public static boolean processMouseHistoricalEvents = false;

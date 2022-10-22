@@ -70,6 +70,10 @@ public class MachineService extends Service {
     }
 
     @Override
+
+
+
+
     public IBinder onBind(Intent arg0) {
         return null;
     }

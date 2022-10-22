@@ -40,7 +40,7 @@ public class Machine extends Observable {
     private String cpu = "host";
     private int cpuNum = 1;
     private int memory = 128;
-    private int enableMTTCG;
+    private int enableUEFI;
     private int enableKVM = 1;
     private int disableACPI = 0;
     private int disableHPET = 0;
@@ -175,15 +175,15 @@ public class Machine extends Observable {
         }
     }
 
-    public int getEnableMTTCG() {
-        return enableMTTCG;
+    public int getEnableUEFI() {
+        return enableUEFI;
     }
 
-    void setEnableMTTCG(int enableMTTCG) {
-        if (this.enableMTTCG != enableMTTCG) {
-            this.enableMTTCG = enableMTTCG;
+    void setEnableUEFI(int enableUEFI) {
+        if (this.enableUEFI != enableUEFI) {
+            this.enableUEFI = enableUEFI;
             setChanged();
-            notifyChanged(MachineProperty.ENABLE_MTTCG, enableMTTCG);
+            notifyChanged(MachineProperty.ENABLE_UEFI, enableUEFI);
         }
     }
 

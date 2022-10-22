@@ -167,7 +167,7 @@ public class LimboActivity extends AppCompatActivity
     private CheckBox mDisableHPET;
     private CheckBox mDisableTSC;
     private CheckBox mEnableKVM;
-    private CheckBox mEnableMTTCG;
+    private CheckBox mEnableUEFI;
     private Spinner mKeyboard;
     private Spinner mMouse;
 
@@ -201,7 +201,7 @@ public class LimboActivity extends AppCompatActivity
 
     //layouts
     private NestedScrollView mScrollView;
-    private boolean firstMTTCGCheck;
+    private boolean firstUEFICheck;
     private ViewListener viewListener;
 
     public void changeStatus(final MachineStatus status_changed) {
@@ -373,8 +373,8 @@ public class LimboActivity extends AppCompatActivity
                 if (getMachine() == null)
                     return;
                 final String cpuNum = (String) ((ArrayAdapter<?>) mCPUNum.getAdapter()).getItem(position);
-                if (position > 0 && getMachine().getEnableMTTCG() != 1 && getMachine().getEnableKVM() != 1 && !firstMTTCGCheck) {
-                    firstMTTCGCheck = true;
+                if (position > 0 && getMachine().getEnableUEFI() != 1 && getMachine().getEnableKVM() != 1 && !firstUEFICheck) {
+                    firstUEFICheck = true;
                     promptMultiCPU(cpuNum);
                 } else {
                     notifyFieldChange(MachineProperty.CPUNUM, cpuNum);
@@ -616,14 +616,14 @@ public class LimboActivity extends AppCompatActivity
 
         });
 
-        mEnableMTTCG.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mEnableUEFI.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
                 if (getMachine() == null)
                     return;
                 if (isChecked) {
-                    promptEnableMTTCG();
+                    promptEnableUEFI();
                 } else {
-                    notifyFieldChange(MachineProperty.ENABLE_MTTCG, isChecked);
+                    notifyFieldChange(MachineProperty.ENABLE_UEFI, isChecked);
                 }
             }
         });
@@ -676,7 +676,7 @@ public class LimboActivity extends AppCompatActivity
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 notifyFieldChange(MachineProperty.ENABLE_KVM, true);
-                //mEnableMTTCG.setChecked(false);
+                //mEnableUEFI.setChecked(false);
             }
         };
 
@@ -704,33 +704,33 @@ public class LimboActivity extends AppCompatActivity
                 cancelListener, getString(R.string.KVMHelp), helpListener);
     }
 
-    private void promptEnableMTTCG() {
+    private void promptEnableUEFI() {
         DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                notifyFieldChange(MachineProperty.ENABLE_MTTCG, true);
+                notifyFieldChange(MachineProperty.ENABLE_UEFI, true);
                 //mEnableKVM.setChecked(false);
             }
         };
         DialogInterface.OnClickListener cancelListener =
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        notifyFieldChange(MachineProperty.ENABLE_MTTCG, false);
-                        mEnableMTTCG.setChecked(false);
+                        notifyFieldChange(MachineProperty.ENABLE_UEFI, false);
+                        mEnableUEFI.setChecked(false);
                     }
                 };
         DialogInterface.OnClickListener helpListener =
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mEnableMTTCG.setChecked(false);
-                        notifyFieldChange(MachineProperty.ENABLE_MTTCG, false);
+                        mEnableUEFI.setChecked(false);
+                        notifyFieldChange(MachineProperty.ENABLE_UEFI, false);
                         LimboActivityCommon.goToURL(LimboActivity.this, Config.faqLink);
                     }
                 };
-        DialogUtils.UIAlert(LimboActivity.this, getString(R.string.enableMTTCG),
-                getString(R.string.enableMTTCGWarning),
+        DialogUtils.UIAlert(LimboActivity.this, getString(R.string.enableUEFI),
+                getString(R.string.enableUEFIWarning),
                 16, false, getString(android.R.string.ok), okListener,
                 getString(android.R.string.cancel)
-                , cancelListener, getString(R.string.mttcgHelp), helpListener);
+                , cancelListener, getString(R.string.UEFIHelp), helpListener);
     }
 
     private void promptMultiCPU(final String cpuNum) {
@@ -889,7 +889,7 @@ public class LimboActivity extends AppCompatActivity
         mDisableHPET.setOnCheckedChangeListener(null);
         mDisableTSC.setOnCheckedChangeListener(null);
         mEnableKVM.setOnCheckedChangeListener(null);
-        mEnableMTTCG.setOnCheckedChangeListener(null);
+        mEnableUEFI.setOnCheckedChangeListener(null);
         mHDA.setOnItemSelectedListener(null);
         mHDB.setOnItemSelectedListener(null);
         mHDC.setOnItemSelectedListener(null);
@@ -1367,7 +1367,7 @@ public class LimboActivity extends AppCompatActivity
         mCPUNum.setEnabled(flag);
         mRamSize.setEnabled(flag);
         mEnableKVM.setEnabled(flag && Config.enableKVM);
-        mEnableMTTCG.setEnabled(flag && Config.enableMTTCG);
+        mEnableUEFI.setEnabled(flag && Config.enableUEFI);
 
         //drives
         mHDA.setEnabled(flag);
@@ -1567,7 +1567,7 @@ public class LimboActivity extends AppCompatActivity
         mUI = findViewById(R.id.uival);
         mRamSize = findViewById(R.id.rammemval);
         mEnableKVM = findViewById(R.id.enablekvmval);
-        mEnableMTTCG = findViewById(R.id.enablemttcgval);
+        mEnableUEFI = findViewById(R.id.enableUEFIval);
         mDisableACPI = findViewById(R.id.acpival);
         mDisableHPET = findViewById(R.id.hpetval);
         mDisableTSC = findViewById(R.id.tscval);
@@ -1822,8 +1822,8 @@ public class LimboActivity extends AppCompatActivity
                     + ", CPU: " + getMachine().getCpu()
                     + ", " + getMachine().getCpuNum() + " CPU" + ((getMachine().getCpuNum() > 1) ? "s" : "")
                     + ", " + getMachine().getMemory() + " MB";
-            if (mEnableMTTCG.isChecked())
-                text = appendOption("Enable MTTCG", text);
+            if (mEnableUEFI.isChecked())
+                text = appendOption("Enable UEFI", text);
             if (mEnableKVM.isChecked())
                 text = appendOption("Enable KVM", text);
             if (mDisableACPI.isChecked())
@@ -2079,7 +2079,7 @@ public class LimboActivity extends AppCompatActivity
         if (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64)
             mDisableTSC.setChecked(getMachine().getDisableTSC() == 1);
         mEnableKVM.setChecked(getMachine().getEnableKVM() == 1);
-        mEnableMTTCG.setChecked(getMachine().getEnableMTTCG() == 1);
+        mEnableUEFI.setChecked(getMachine().getEnableUEFI() == 1);
 
         enableNonRemovableDeviceOptions(true);
         enableRemovableDeviceOptions(!MachineController.getInstance().isRunning());

@@ -76,7 +76,7 @@ Desktop Mode is now global setting
 Fixed issue with VNC 24bit color on Samsung phones showing black screen
 Standardized VNC port for better compatibility with external clients
 Added Calibration Fix for VNC Mouse
-Mouse, Keyboard, MTTCG, and KVM are now Machine option (not global)
+Mouse, Keyboard, UEFI, and KVM are now Machine option (not global)
 New option Disable TSC for OSes that hang or kernel panic (set by default)
 Some machine options have changed default values (ie network is disable by default)
 New expand/collapse user interface for main screen.
@@ -103,7 +103,7 @@ Added icons for Legacy file manager
 Added icons for Drives dialog box
 Reduced message errors for QMP client
 Early support for double tap/hold touchpad mode
-Early support for x86 guest MTTCG (qemu 3.1.0)
+Early support for x86 guest UEFI (qemu 3.1.0)
 New build environemnt read README.developers for changes to makefiles
 Reduced JNI internal configuration files and makefiles
 Default build sdk version is now api 26, minimum api continues to be 21
@@ -184,7 +184,7 @@ Limbo v2.9.2
 - Fixed Compatibility issue with KolibriOS and DSL Linux Live CD
 - Support for building of ARM, PowerPC, Sparc Emulators 
 - Support for building for 64Bit Hosts (x86_64, ARM64) 
-- Support for enabling mttcg
+- Support for enabling UEFI
 - Minimum Requirements: Android OS 17
 
 
