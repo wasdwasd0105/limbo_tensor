@@ -324,7 +324,8 @@ private String getQemuLibrary() {
         // doesn't work for x86 guests yet
         if (getMachine().getCpuNum() > 1) {
             paramsList.add("-smp");
-            paramsList.add(getMachine().getCpuNum() + "");
+            String numCPU = String.valueOf(getMachine().getCpuNum());
+            paramsList.add("cpus=" + numCPU + ",sockets=1,cores=" + numCPU + ",threads=1");
         }
         if (getMachineType() != null && !getMachineType().equals("Default")) {
             paramsList.add("-M");
