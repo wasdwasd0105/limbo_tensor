@@ -9,7 +9,7 @@ Currently only Google Tensor SOC support the feature. ROOT access is REQUIRED to
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/Screenshot_20221024-022640.png?raw=true)
 
-Passmark CPU & Mem test
+Passmark CPU & Mem test on Google Pixel 7
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/passmark_8cores.png?raw=true)
 
