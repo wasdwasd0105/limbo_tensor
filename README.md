@@ -25,7 +25,7 @@ Passmark CPU & Mem test on Google Pixel 7
     - local only on port `8021` (telnet:127.0.0.1:8021)
     - local and LAN on `8021` (telnet:0:8021)
 3. Mouse:
-   - usb-table (good on VNC)
+   - usb-tablet (good on VNC)
    - usb-mouse
 
 >### Board 
@@ -44,7 +44,7 @@ Passmark CPU & Mem test on Google Pixel 7
 
 >### Removeable 
 1. CDROM: can be used to install OS. Disable it after installation
-2. SD Card: Do not use and will be removed later
+2. SD Card: Do not use it is currently broken, and will be removed later
 
 >### Boot (Do not modify if UEFI is enabled)
 
