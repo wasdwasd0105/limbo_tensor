@@ -13,6 +13,12 @@ Passmark CPU & Mem test on Google Pixel 7
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/passmark_8cores.png?raw=true)
 
+USB Passthrough Demo: Sharing Netgear USB WIFI to Ubuntu VM
+![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/usb_demo.png?raw=true)
+
+USB Passthrough Speed: Transfer a large file to Ubuntu VM
+![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/usb_demo2.png?raw=true)
+
 
 ***
 
@@ -60,13 +66,19 @@ Passmark CPU & Mem test on Google Pixel 7
 3. DNS Server: Current is 8.8.8.8 (may not work, need more test)
 4. Host Forword: not working
 
+>### USB
+1. Can Passthrough USB 3.0 Device to VMs
+2. Input device path follows (BusID).(DeviceID) You can use 3rd APPs eg (https://play.google.com/store/apps/details?id=usbdevicem.indvel.app.usbdevicemanager) to find out.
+3. If the Device Path is "/dev/bus/usb/003/004", You input is "3.4"
+4. You need to connect the device before the VM starts. You can disconnect devices while running the VMs.
+
 
 ## Todo List
 - [x] KVM support
 - [x] UEFI support
+- [x] USB passthrough
 - [ ] ramfb for Windows
 - [ ] GL support
-- [ ] USB passthrough
 - [ ] FIX network options
 - [ ] FIX nvram write option
 - [ ] Add Audio options
