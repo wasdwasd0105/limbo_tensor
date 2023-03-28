@@ -44,6 +44,8 @@
 
                 <include layout="@layout/storage_layout" />
 
+                <include layout="@layout/usb_layout" />
+
                 <include layout="@layout/removable_storage_layout" />
 
                 <include layout="@layout/boot_layout" />

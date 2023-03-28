@@ -86,6 +86,17 @@ public class Machine extends Observable {
     private String soundCard = null;
     //extra qemu params
     private String extraParams;
+
+    private String usb1Path;
+    private String usb2Path;
+    private String usb3Path;
+    private String usb4Path;
+
+    private int enableUSB1;
+    private int enableUSB2;
+    private int enableUSB3;
+    private int enableUSB4;
+
     private int paused;
     private int sharedFolderMode;
 
@@ -198,6 +209,56 @@ public class Machine extends Observable {
             notifyChanged(MachineProperty.ENABLE_KVM, enableKVM);
         }
     }
+
+    public int getEnableUSB1() {
+        return enableUSB1;
+    }
+
+    void setenableUSB1(int enableUSB1) {
+        if (this.enableUSB1 != enableUSB1) {
+            this.enableUSB1 = enableUSB1;
+            setChanged();
+            notifyChanged(MachineProperty.USB1_ENABLE, enableUSB1);
+        }
+    }
+
+    public int getEnableUSB2() {
+        return enableUSB2;
+    }
+
+    void setenableUSB2(int enableUSB2) {
+        if (this.enableUSB2 != enableUSB2) {
+            this.enableUSB2 = enableUSB2;
+            setChanged();
+            notifyChanged(MachineProperty.USB2_ENABLE, enableUSB2);
+        }
+    }
+
+    void setenableUSB3(int enableUSB3) {
+        if (this.enableUSB3 != enableUSB3) {
+            this.enableUSB3 = enableUSB3;
+            setChanged();
+            notifyChanged(MachineProperty.USB3_ENABLE, enableUSB3);
+        }
+    }
+
+    public int getEnableUSB3() {
+        return enableUSB3;
+    }
+
+
+    void setenableUSB4(int enableUSB4) {
+        if (this.enableUSB4 != enableUSB4) {
+            this.enableUSB4 = enableUSB4;
+            setChanged();
+            notifyChanged(MachineProperty.USB4_ENABLE, enableUSB4);
+        }
+    }
+
+    public int getEnableUSB4() {
+        return enableUSB4;
+    }
+
 
     public int getDisableACPI() {
         return disableACPI;
@@ -595,6 +656,53 @@ public class Machine extends Observable {
     public String getExtraParams() {
         return extraParams;
     }
+    public String getUSB1path() {
+        return usb1Path;
+    }
+    public String getUSB2path() {
+        return usb2Path;
+    }
+    public String getUSB3path() {
+        return usb3Path;
+    }
+    public String getUSB4path() {
+        return usb4Path;
+    }
+
+    void setUSB1Path(String usb1Path) {
+        if (this.usb1Path == null || !this.usb1Path.equals(usb1Path)) {
+            this.usb1Path = usb1Path;
+            setChanged();
+            notifyChanged(MachineProperty.USB1_PATH, usb1Path);
+        }
+    }
+
+    void setUSB2Path(String usb2Path) {
+        if (this.usb2Path == null || !this.usb2Path.equals(usb2Path)) {
+            this.usb2Path = usb2Path;
+            setChanged();
+            notifyChanged(MachineProperty.USB2_PATH, usb2Path);
+        }
+    }
+
+    void setUSB3Path(String usb3Path) {
+        if (this.usb3Path == null || !this.usb3Path.equals(usb3Path)) {
+            this.usb3Path = usb3Path;
+            setChanged();
+            notifyChanged(MachineProperty.USB3_PATH, usb3Path);
+        }
+    }
+
+    void setUSB4Path(String usb4Path) {
+        if (this.usb4Path == null || !this.usb4Path.equals(usb4Path)) {
+            this.usb4Path = usb4Path;
+            setChanged();
+            notifyChanged(MachineProperty.USB4_PATH, usb4Path);
+        }
+    }
+
+
+
 
     void setExtraParams(String extraParams) {
         if (this.extraParams == null || !this.extraParams.equals(extraParams)) {

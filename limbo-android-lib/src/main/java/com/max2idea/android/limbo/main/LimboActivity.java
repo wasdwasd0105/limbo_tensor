@@ -126,6 +126,10 @@ public class LimboActivity extends AppCompatActivity
     private EditText mHOSTFWD;
     private EditText mAppend;
     private EditText mExtraParams;
+    private EditText mUSB1path;
+    private EditText mUSB2path;
+    private EditText mUSB3path;
+    private EditText mUSB4path;
     private TextView mStatusText;
     private Spinner mMachine;
     private Spinner mCPU;
@@ -154,6 +158,10 @@ public class LimboActivity extends AppCompatActivity
     private CheckBox mFDBenable;
     private CheckBox mSDenable;
     private ImageView mCDOptions;
+    private CheckBox mUSB1check;
+    private CheckBox mUSB2check;
+    private CheckBox mUSB3check;
+    private CheckBox mUSB4check;
 
     // misc
     private Spinner mRamSize;
@@ -187,6 +195,7 @@ public class LimboActivity extends AppCompatActivity
     private LinearLayout mRemovableStorageSectionDetails;
     private LinearLayout mNetworkSectionDetails;
     private LinearLayout mAudioSectionDetails;
+    private LinearLayout mUSBSectionDetails;
 
     //summary
     private TextView mUISectionSummary;
@@ -590,6 +599,50 @@ public class LimboActivity extends AppCompatActivity
             }
         });
 
+        mUSB1path.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (getMachine() == null)
+                    return;
+                if (!hasFocus) {
+                    notifyFieldChange(MachineProperty.USB1_PATH, mUSB1path.getText().toString());
+                }
+            }
+        });
+
+        mUSB2path.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (getMachine() == null)
+                    return;
+                if (!hasFocus) {
+                    notifyFieldChange(MachineProperty.USB2_PATH, mUSB2path.getText().toString());
+                }
+            }
+        });
+
+        mUSB3path.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (getMachine() == null)
+                    return;
+                if (!hasFocus) {
+                    notifyFieldChange(MachineProperty.USB3_PATH, mUSB3path.getText().toString());
+                }
+            }
+        });
+
+        mUSB4path.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (getMachine() == null)
+                    return;
+                if (!hasFocus) {
+                    notifyFieldChange(MachineProperty.USB4_PATH, mUSB4path.getText().toString());
+                }
+            }
+        });
+
         OnClickListener resetClickListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -602,6 +655,11 @@ public class LimboActivity extends AppCompatActivity
         mAppend.setOnClickListener(resetClickListener);
         mHOSTFWD.setOnClickListener(resetClickListener);
         mExtraParams.setOnClickListener(resetClickListener);
+        mUSB1path.setOnClickListener(resetClickListener);
+        mUSB2path.setOnClickListener(resetClickListener);
+        mUSB3path.setOnClickListener(resetClickListener);
+        mUSB4path.setOnClickListener(resetClickListener);
+
         mEnableKVM.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
                 if (getMachine() == null)
@@ -616,6 +674,45 @@ public class LimboActivity extends AppCompatActivity
 
         });
 
+        mUSB1check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
+                if (getMachine() == null)
+                    return;
+
+                notifyFieldChange(MachineProperty.USB1_ENABLE, isChecked);
+            }
+
+        });
+
+        mUSB2check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
+                if (getMachine() == null)
+                    return;
+                notifyFieldChange(MachineProperty.USB2_ENABLE, isChecked);
+
+            }
+
+        });
+
+        mUSB3check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
+                if (getMachine() == null)
+                    return;
+                notifyFieldChange(MachineProperty.USB3_ENABLE, isChecked);
+
+            }
+
+        });
+
+        mUSB4check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
+                if (getMachine() == null)
+                    return;
+                notifyFieldChange(MachineProperty.USB4_ENABLE, isChecked);
+
+            }
+
+        });
         mEnableUEFI.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
                 if (getMachine() == null)
@@ -906,6 +1003,14 @@ public class LimboActivity extends AppCompatActivity
         mDNS.setOnFocusChangeListener(null);
         mHOSTFWD.setOnFocusChangeListener(null);
         mExtraParams.setOnFocusChangeListener(null);
+        mUSB1path.setOnFocusChangeListener(null);
+        mUSB2path.setOnFocusChangeListener(null);
+        mUSB3path.setOnFocusChangeListener(null);
+        mUSB4path.setOnFocusChangeListener(null);
+        mUSB1check.setOnCheckedChangeListener(null);
+        mUSB2check.setOnCheckedChangeListener(null);
+        mUSB3check.setOnCheckedChangeListener(null);
+        mUSB4check.setOnCheckedChangeListener(null);
     }
 
     /**
@@ -1369,6 +1474,12 @@ public class LimboActivity extends AppCompatActivity
         mEnableKVM.setEnabled(flag && Config.enableKVM);
         mEnableUEFI.setEnabled(flag && Config.enableUEFI);
 
+        //USB
+        mUSB1check.setEnabled(flag);
+        mUSB2check.setEnabled(flag);
+        mUSB3check.setEnabled(flag);
+        mUSB4check.setEnabled(flag);
+
         //drives
         mHDA.setEnabled(flag);
         mHDAOptions.setEnabled(flag);
@@ -1408,6 +1519,12 @@ public class LimboActivity extends AppCompatActivity
         mDisableHPET.setEnabled(flag);
         mDisableTSC.setEnabled(flag);
         mExtraParams.setEnabled(flag);
+
+        //
+        mUSB1path.setEnabled(flag);
+        mUSB2path.setEnabled(flag);
+        mUSB3path.setEnabled(flag);
+        mUSB4path.setEnabled(flag);
 
     }
 
@@ -1630,6 +1747,20 @@ public class LimboActivity extends AppCompatActivity
         // advanced
         mExtraParams = findViewById(R.id.extraparamsval);
 
+
+        // usb
+        mUSB1check = findViewById(R.id.usb1check);
+        mUSB2check = findViewById(R.id.usb2check);
+        mUSB3check = findViewById(R.id.usb3check);
+        mUSB4check = findViewById(R.id.usb4check);
+
+        mUSB1path = findViewById(R.id.usb1path);
+        mUSB2path = findViewById(R.id.usb2path);
+        mUSB3path = findViewById(R.id.usb3path);
+        mUSB4path = findViewById(R.id.usb4path);
+
+
+
         disableFeatures();
         enableRemovableDeviceOptions(false);
         enableNonRemovableDeviceOptions(false);
@@ -1696,6 +1827,19 @@ public class LimboActivity extends AppCompatActivity
                     disableListeners();
                     disableRemovableDiskListeners();
                     toggleSectionVisibility(mUserInterfaceSectionDetails);
+                    enableListenersDelayed();
+                }
+            });
+
+            mUSBSectionDetails = findViewById(R.id.usbSectionDetails);
+            mUSBSectionDetails.setVisibility(View.GONE);
+            //mUSBSectionSummary = findViewById(R.id.susbsectionsummaryStr);
+            LinearLayout mUSBSectionHeader = findViewById(R.id.usbheaderl);
+            mUSBSectionHeader.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) {
+                    disableListeners();
+                    disableRemovableDiskListeners();
+                    toggleSectionVisibility(mUSBSectionDetails);
                     enableListenersDelayed();
                 }
             });
@@ -2040,6 +2184,27 @@ public class LimboActivity extends AppCompatActivity
         else
             mExtraParams.setText("");
 
+        if (getMachine().getUSB1path() != null)
+            mUSB1path.setText(getMachine().getUSB1path());
+        else
+            mUSB1path.setText("");
+
+        if (getMachine().getUSB2path() != null)
+            mUSB2path.setText(getMachine().getUSB2path());
+        else
+            mUSB2path.setText("");
+
+        if (getMachine().getUSB3path() != null)
+            mUSB3path.setText(getMachine().getUSB3path());
+        else
+            mUSB3path.setText("");
+
+        if (getMachine().getUSB4path() != null)
+            mUSB4path.setText(getMachine().getUSB4path());
+        else
+            mUSB4path.setText("");
+
+
         if (getMachine().getDNS() != null)
             mDNS.setText(getMachine().getDNS());
         else
@@ -2080,6 +2245,13 @@ public class LimboActivity extends AppCompatActivity
             mDisableTSC.setChecked(getMachine().getDisableTSC() == 1);
         mEnableKVM.setChecked(getMachine().getEnableKVM() == 1);
         mEnableUEFI.setChecked(getMachine().getEnableUEFI() == 1);
+
+        mUSB1check.setChecked(getMachine().getEnableUSB1() == 1);
+        mUSB2check.setChecked(getMachine().getEnableUSB2() == 1);
+        mUSB3check.setChecked(getMachine().getEnableUSB3() == 1);
+        mUSB4check.setChecked(getMachine().getEnableUSB4() == 1);
+
+
 
         enableNonRemovableDeviceOptions(true);
         enableRemovableDeviceOptions(!MachineController.getInstance().isRunning());

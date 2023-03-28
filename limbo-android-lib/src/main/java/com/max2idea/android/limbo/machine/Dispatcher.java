@@ -192,6 +192,18 @@ public class Dispatcher implements ViewListener {
             case ENABLE_KVM:
                 getMachine().setEnableKVM((convertBoolean(property, value) ? 1 : 0));
                 break;
+            case USB1_ENABLE:
+                getMachine().setenableUSB1((convertBoolean(property, value) ? 1 : 0));
+                break;
+            case USB2_ENABLE:
+                getMachine().setenableUSB2((convertBoolean(property, value) ? 1 : 0));
+                break;
+            case USB3_ENABLE:
+                getMachine().setenableUSB3((convertBoolean(property, value) ? 1 : 0));
+                break;
+            case USB4_ENABLE:
+                getMachine().setenableUSB4((convertBoolean(property, value) ? 1 : 0));
+                break;
             case ENABLE_UEFI:
                 getMachine().setEnableUEFI((convertBoolean(property, value) ? 1 : 0));
                 break;
@@ -217,6 +229,14 @@ public class Dispatcher implements ViewListener {
                 getMachine().setExtraParams(convertString(property,value));
             case DNS:
                 getMachine().setDNS(convertString(property,value));
+            case USB1_PATH:
+                getMachine().setUSB1Path(convertString(property,value));
+            case USB2_PATH:
+                getMachine().setUSB2Path(convertString(property,value));
+            case USB3_PATH:
+                getMachine().setUSB3Path(convertString(property,value));
+            case USB4_PATH:
+                getMachine().setUSB4Path(convertString(property,value));
             default:
                 throw new RuntimeException("Umapped UI field: " + property);
         }

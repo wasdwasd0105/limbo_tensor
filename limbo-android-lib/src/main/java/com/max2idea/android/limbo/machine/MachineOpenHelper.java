@@ -40,7 +40,7 @@ import java.util.Observer;
 public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatabase, Observer {
     private static final String TAG = "MachineOpenHelper";
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
     private static final String DATABASE_NAME = "LIMBO";
     private static final String MACHINE_TABLE_NAME = "machines";
 
@@ -56,7 +56,8 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
             + MachineProperty.HOSTFWD.name() + " TEXT, " + MachineProperty.GUESTFWD.name() + " TEXT, " + MachineProperty.UI.name() + " TEXT, " + MachineProperty.DISABLE_TSC.name() + " INTEGER, "
             + MachineProperty.MOUSE.name() + " TEXT, " + MachineProperty.KEYBOARD.name() + " TEXT, " + MachineProperty.ENABLE_UEFI.name() + " INTEGER, " + MachineProperty.ENABLE_KVM.name() + " INTEGER , "
             + MachineProperty.HDA_INTERFACE.name() + " TEXT, " + MachineProperty.HDB_INTERFACE.name() + " TEXT, " + MachineProperty.HDC_INTERFACE.name() + " TEXT, " + MachineProperty.HDD_INTERFACE.name() + " TEXT , "
-            + MachineProperty.CDROM_INTERFACE.name() + " TEXT, " + MachineProperty.DNS.name() + " TEXT "
+            + MachineProperty.CDROM_INTERFACE.name() + " TEXT, " + MachineProperty.DNS.name() + " TEXT, " + MachineProperty.USB1_PATH.name() + " TEXT, "  + MachineProperty.USB2_PATH.name() + " TEXT, " + MachineProperty.USB3_PATH.name() + " TEXT, " + MachineProperty.USB4_PATH.name() + " TEXT, "
+            + MachineProperty.USB1_ENABLE.name() + " TEXT, "  + MachineProperty.USB2_ENABLE.name() + " TEXT, " + MachineProperty.USB3_ENABLE.name() + " TEXT, " + MachineProperty.USB4_ENABLE.name() + " TEXT "
             + ");";
 
     private static MachineOpenHelper sInstance;
@@ -161,6 +162,17 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
             db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.CDROM_INTERFACE + " TEXT;");
             db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.DNS + " TEXT;");
         }
+
+        if (newVersion >= 17 && oldVersion <= 16) {
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB1_PATH + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB2_PATH + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB3_PATH + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB4_PATH + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB1_ENABLE + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB2_ENABLE + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB3_ENABLE + " TEXT;");
+            db.execSQL("ALTER TABLE " + MACHINE_TABLE_NAME + " ADD COLUMN " + MachineProperty.USB4_ENABLE + " TEXT;");
+        }
     }
 
     public synchronized int insertMachine(Machine machine) {
@@ -210,6 +222,16 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
         stateValues.put(MachineProperty.KEYBOARD.name(), machine.getKeyboard());
         stateValues.put(MachineProperty.ENABLE_UEFI.name(), machine.getEnableUEFI());
         stateValues.put(MachineProperty.ENABLE_KVM.name(), machine.getEnableKVM());
+        stateValues.put(MachineProperty.USB1_PATH.name(), machine.getUSB1path());
+        stateValues.put(MachineProperty.USB2_PATH.name(), machine.getUSB2path());
+        stateValues.put(MachineProperty.USB3_PATH.name(), machine.getUSB3path());
+        stateValues.put(MachineProperty.USB4_PATH.name(), machine.getUSB4path());
+        stateValues.put(MachineProperty.USB1_ENABLE.name(), machine.getEnableUSB1());
+        stateValues.put(MachineProperty.USB2_ENABLE.name(), machine.getEnableUSB2());
+        stateValues.put(MachineProperty.USB3_ENABLE.name(), machine.getEnableUSB3());
+        stateValues.put(MachineProperty.USB4_ENABLE.name(), machine.getEnableUSB4());
+
+
 
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -271,7 +293,8 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
                 + MachineProperty.MOUSE + ", " + MachineProperty.KEYBOARD + ", " + MachineProperty.ENABLE_UEFI + ", " + MachineProperty.ENABLE_KVM + ", "
                 + MachineProperty.HDA_INTERFACE + ", " + MachineProperty.HDB_INTERFACE + ", "
                 + MachineProperty.HDC_INTERFACE + ", " + MachineProperty.HDD_INTERFACE + ", "
-                + MachineProperty.CDROM_INTERFACE + ", " + MachineProperty.DNS + " "
+                + MachineProperty.CDROM_INTERFACE + ", " + MachineProperty.DNS + ", " + MachineProperty.USB1_PATH + ", " + MachineProperty.USB2_PATH + ", " + MachineProperty.USB3_PATH + ", " + MachineProperty.USB4_PATH + ", "
+                + MachineProperty.USB1_ENABLE + ", " + MachineProperty.USB2_ENABLE + ", " + MachineProperty.USB3_ENABLE + ", " + MachineProperty.USB4_ENABLE + " "
                 + " from " + MACHINE_TABLE_NAME
                 + " where " + MachineProperty.STATUS + " in ( " + Config.STATUS_CREATED + " , " + Config.STATUS_PAUSED + " "
                 + " ) " + " and " + MachineProperty.MACHINE_NAME + "=\"" + machine + "\"" + ";";
@@ -340,6 +363,14 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
             myMachine.setHddInterface(cur.getString(43));
             myMachine.setCdInterface(cur.getString(44));
             myMachine.setDNS(cur.getString(45));
+            myMachine.setUSB1Path(cur.getString(46));
+            myMachine.setUSB2Path(cur.getString(47));
+            myMachine.setUSB3Path(cur.getString(48));
+            myMachine.setUSB4Path(cur.getString(49));
+            myMachine.setenableUSB1(cur.getInt(50));
+            myMachine.setenableUSB2(cur.getInt(51));
+            myMachine.setenableUSB3(cur.getInt(52));
+            myMachine.setenableUSB4(cur.getInt(53));
         }
         cur.close();
 
@@ -390,7 +421,8 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
                 + MachineProperty.MOUSE + ", " + MachineProperty.KEYBOARD + ", " + MachineProperty.ENABLE_UEFI + ", " + MachineProperty.ENABLE_KVM +", "
                 + MachineProperty.HDA_INTERFACE + ", " + MachineProperty.HDB_INTERFACE + ", "
                 + MachineProperty.HDC_INTERFACE + ", " + MachineProperty.HDD_INTERFACE + " "
-                + MachineProperty.CDROM_INTERFACE +", " + MachineProperty.DNS + " "
+                + MachineProperty.CDROM_INTERFACE +", " + MachineProperty.DNS + ", " + MachineProperty.USB1_PATH + ", " + MachineProperty.USB2_PATH + ", " + MachineProperty.USB3_PATH + ", " + MachineProperty.USB4_PATH + ", "
+                + MachineProperty.USB1_ENABLE + ", " + MachineProperty.USB2_ENABLE + ", " + MachineProperty.USB3_ENABLE + ", " + MachineProperty.USB4_ENABLE + " "
                 // Table
                 + " from " + MACHINE_TABLE_NAME + " order by 1; ";
 

@@ -176,6 +176,7 @@ private String getQemuLibrary() {
         addGraphicsOptions(paramsList);
         addAudioOptions(paramsList);
         addNetworkOptions(paramsList);
+        addUSBOptions(paramsList);
 
         //addGenericOptions(context, paramsList);
         //addStateOptions(paramsList);
@@ -413,6 +414,42 @@ private String getQemuLibrary() {
 
             paramsList.add("-netdev");
             paramsList.add("user,id=net0,dns=" + getMachine().getDNS());
+        }
+    }
+
+
+    private void addUSBOptions(ArrayList<String> paramsList) throws Exception {
+        if (getMachine().getEnableUSB1() != 0) {
+            String usbPath = getMachine().getUSB1path();
+            String bus = usbPath.split("\\.")[0];
+            String addr = usbPath.split("\\.")[1];
+            //-device usb-host,hostbus=3,hostaddr=4
+            String USBout = "-device usb-host,hostbus=" + bus + ",hostaddr=" + addr;
+            paramsList.add(USBout);
+        }
+        if (getMachine().getEnableUSB2() != 0) {
+            String usbPath = getMachine().getUSB2path();
+            String bus = usbPath.split("\\.")[0];
+            String addr = usbPath.split("\\.")[1];
+            //-device usb-host,hostbus=3,hostaddr=4
+            String USBout = "-device usb-host,hostbus=" + bus + ",hostaddr=" + addr;
+            paramsList.add(USBout);
+        }
+        if (getMachine().getEnableUSB3() != 0) {
+            String usbPath = getMachine().getUSB3path();
+            String bus = usbPath.split("\\.")[0];
+            String addr = usbPath.split("\\.")[1];
+            //-device usb-host,hostbus=3,hostaddr=4
+            String USBout = "-device usb-host,hostbus=" + bus + ",hostaddr=" + addr;
+            paramsList.add(USBout);
+        }
+        if (getMachine().getEnableUSB4() != 0) {
+            String usbPath = getMachine().getUSB4path();
+            String bus = usbPath.split("\\.")[0];
+            String addr = usbPath.split("\\.")[1];
+            //-device usb-host,hostbus=3,hostaddr=4
+            String USBout = "-device usb-host,hostbus=" + bus + ",hostaddr=" + addr;
+            paramsList.add(USBout);
         }
     }
 

@@ -1,6 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/usbsectionl"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    android:gravity="center|center_vertical"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:showIn="@layout/limbo_main">
+
+    <LinearLayout
+        android:id="@+id/usbheaderl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/usb" />
+
+        <TextView
+            android:id="@+id/usbsectionStr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:padding="10dp"
+            android:text="USB"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/usbsectionsummaryStr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:maxLines="3"
+            android:minLines="2"
+            android:padding="10dp"
+            android:text=""
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/usbSectionDetails"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/usb1paramsl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <CheckBox
+                android:id="@+id/usb1check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="left|center_vertical"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:id="@+id/usb1paramsStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="USB1 device path: "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/usb1path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textFilter|textNoSuggestions"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/usb2paramsl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <CheckBox
+                android:id="@+id/usb2check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="left|center_vertical"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:id="@+id/usb2paramsStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="USB2 device path: "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/usb2path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textFilter|textNoSuggestions"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/usb3paramsl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <CheckBox
+                android:id="@+id/usb3check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="left|center_vertical"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:id="@+id/usb3paramsStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="USB3 device path: "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/usb3path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textFilter|textNoSuggestions"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/usb4paramsl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <CheckBox
+                android:id="@+id/usb4check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="left|center_vertical"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:id="@+id/usb4paramsStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="USB4 device path: "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/usb4path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textFilter|textNoSuggestions"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>
