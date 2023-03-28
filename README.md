@@ -7,7 +7,12 @@ Limbo utilizes Kernal KVM feature from Exception Level 2 hypervisor privilege le
 Currently only Google Tensor SOC support the feature. ROOT access is REQUIRED to access Kernal KVM.
 
 
-![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/limbo-android-arm/Screenshot_20221024-022640.png?raw=true)
+![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/Screenshot_20221024-022640.png?raw=true)
+
+Passmark CPU & Mem test on Google Pixel 7
+
+![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/passmark_8cores.png?raw=true)
+
 
 ***
 
