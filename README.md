@@ -77,12 +77,12 @@ USB Passthrough Speed: Transfer a large file to Ubuntu VM
 - [x] KVM support
 - [x] UEFI support
 - [x] USB passthrough
-- [ ] ramfb for Windows
+- [x] Windows on ARM
+- [x] virtio-ramfb for Windows (from UTM)
 - [ ] GL support
 - [ ] FIX network options
 - [ ] FIX nvram write option
 - [ ] Add Audio options
-- [ ] Windows on ARM
 - [ ] DNS passthrough (current hardcoded under `/data/data/com.limbo.emu.main.arm/cache/limbo/resolv.conf`)
 - [ ] Support contorl qemu
 - [ ] Spice 
