@@ -20,7 +20,7 @@ To use unprotected KVM, modify the boot cmdline from the Android kernel source. 
 
 These files are located at `aosp/arch/arm64/configs/gki_defconfig` for AOSP kernel and `private/gs-google/arch/arm64/configs/gki_defconfig` for Google Pixel kernel.
 
-Modify the config to "kvm-arm.mode=nvhe" and compile the kernel to get an unlock KVM.
+Modify the config from "kvm-arm.mode=protected" to "kvm-arm.mode=nvhe" and compile the kernel to get an unlock KVM.
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/defconfig.png?raw=true)
 
