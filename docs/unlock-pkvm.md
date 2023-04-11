@@ -23,3 +23,7 @@ In Pixel's kernel, these files are located at aosp/arch/arm64/configs/gki_defcon
 Modify the config to "kvm-arm.mode=nvhe" and compile the kernel to get an unlock KVM.
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/defconfig.png?raw=true)
+
+
+Check KVM status again; now KVM is unlocked
+![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/cmdline_kvm_nvhe.png?raw=true)
