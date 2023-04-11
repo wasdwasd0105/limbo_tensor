@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:gravity="right|center_vertical"
-                    android:text="Disable HPET"
+                    android:text="Unlocked UEFI"
                     android:textSize="15sp" />
 
                 <CheckBox
@@ -288,7 +288,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:gravity="right|center_vertical"
-                    android:text="Disable TSC"
+                    android:text="100% Mode"
                     android:textSize="15sp" />
 
                 <CheckBox
@@ -323,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:gravity="right|center_vertical"
-                    android:text="Disable ACPI"
+                    android:text="100% Success Mode"
                     android:textSize="15sp" />
 
                 <CheckBox

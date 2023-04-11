@@ -171,8 +171,8 @@ public class LimboActivity extends AppCompatActivity
     private Spinner mVGAConfig;
     private Spinner mSoundCard;
     private Spinner mUI;
-    private CheckBox mDisableACPI;
-    private CheckBox mDisableHPET;
+    private CheckBox mSetFourCore;
+    private CheckBox mUnlockedUEFI;
     private CheckBox mDisableTSC;
     private CheckBox mEnableKVM;
     private CheckBox mEnableUEFI;
@@ -531,7 +531,7 @@ public class LimboActivity extends AppCompatActivity
             }
         });
 
-        mDisableACPI.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mSetFourCore.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
                 if (getMachine() == null)
                     return;
@@ -539,7 +539,7 @@ public class LimboActivity extends AppCompatActivity
             }
         });
 
-        mDisableHPET.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mUnlockedUEFI.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton viewButton, boolean isChecked) {
                 if (getMachine() == null)
                     return;
@@ -751,12 +751,12 @@ public class LimboActivity extends AppCompatActivity
     private void setCPUOptions() {
         if (MachineController.getInstance().getCurrStatus() != MachineStatus.Running &&
                 (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64)) {
-            mDisableACPI.setEnabled(true);
-            mDisableHPET.setEnabled(true);
+            mSetFourCore.setEnabled(true);
+            mUnlockedUEFI.setEnabled(true);
             mDisableTSC.setEnabled(true);
         } else {
-            mDisableACPI.setEnabled(false);
-            mDisableHPET.setEnabled(false);
+            mSetFourCore.setEnabled(false);
+            mUnlockedUEFI.setEnabled(false);
             mDisableTSC.setEnabled(false);
         }
     }
@@ -982,8 +982,8 @@ public class LimboActivity extends AppCompatActivity
         mCPU.setOnItemSelectedListener(null);
         mCPUNum.setOnItemSelectedListener(null);
         mRamSize.setOnItemSelectedListener(null);
-        mDisableACPI.setOnCheckedChangeListener(null);
-        mDisableHPET.setOnCheckedChangeListener(null);
+        mSetFourCore.setOnCheckedChangeListener(null);
+        mUnlockedUEFI.setOnCheckedChangeListener(null);
         mDisableTSC.setOnCheckedChangeListener(null);
         mEnableKVM.setOnCheckedChangeListener(null);
         mEnableUEFI.setOnCheckedChangeListener(null);
@@ -1515,8 +1515,8 @@ public class LimboActivity extends AppCompatActivity
         mHOSTFWD.setEnabled(flag && mNetConfig.getSelectedItemPosition() > 0);
 
         //advanced
-        mDisableACPI.setEnabled(flag);
-        mDisableHPET.setEnabled(flag);
+        mSetFourCore.setEnabled(flag);
+        mUnlockedUEFI.setEnabled(flag);
         mDisableTSC.setEnabled(flag);
         mExtraParams.setEnabled(flag);
 
@@ -1685,8 +1685,8 @@ public class LimboActivity extends AppCompatActivity
         mRamSize = findViewById(R.id.rammemval);
         mEnableKVM = findViewById(R.id.enablekvmval);
         mEnableUEFI = findViewById(R.id.enableUEFIval);
-        mDisableACPI = findViewById(R.id.acpival);
-        mDisableHPET = findViewById(R.id.hpetval);
+        mSetFourCore = findViewById(R.id.acpival);
+        mUnlockedUEFI = findViewById(R.id.hpetval);
         mDisableTSC = findViewById(R.id.tscval);
 
         //disks
@@ -1774,14 +1774,14 @@ public class LimboActivity extends AppCompatActivity
         }
 
         LinearLayout mDisableTSCLayout = findViewById(R.id.tscl);
-        LinearLayout mDisableACPILayout = findViewById(R.id.acpil);
-        LinearLayout mDisableHPETLayout = findViewById(R.id.hpetl);
+        LinearLayout mSetFourCoreLayout = findViewById(R.id.acpil);
+        LinearLayout mUnlockedUEFILayout = findViewById(R.id.hpetl);
         LinearLayout mEnableKVMLayout = findViewById(R.id.kvml);
 
         if (LimboApplication.arch != Config.Arch.x86 && LimboApplication.arch != Config.Arch.x86_64) {
             mDisableTSCLayout.setVisibility(View.GONE);
-            mDisableACPILayout.setVisibility(View.GONE);
-            mDisableHPETLayout.setVisibility(View.GONE);
+            //mSetFourCoreLayout.setVisibility(View.GONE);
+            //mUnlockedUEFILayout.setVisibility(View.GONE);
         }
         if (LimboApplication.arch != Config.Arch.x86 && LimboApplication.arch != Config.Arch.x86_64
                 && LimboApplication.arch != Config.Arch.arm && LimboApplication.arch != Config.Arch.arm64) {
@@ -1970,10 +1970,10 @@ public class LimboActivity extends AppCompatActivity
                 text = appendOption("Enable UEFI", text);
             if (mEnableKVM.isChecked())
                 text = appendOption("Enable KVM", text);
-            if (mDisableACPI.isChecked())
-                text = appendOption("Disable ACPI", text);
-            if (mDisableHPET.isChecked())
-                text = appendOption("Disable HPET", text);
+            if (mSetFourCore.isChecked())
+                text = appendOption("100% Mode", text);
+            if (mUnlockedUEFI.isChecked())
+                text = appendOption("Unlocked UEFI", text);
             if (mDisableTSC.isChecked())
                 text = appendOption("Disable TSC", text);
             mCPUSectionSummary.setText(text);
@@ -2239,8 +2239,8 @@ public class LimboActivity extends AppCompatActivity
         SpinnerAdapter.setDiskAdapterValue(mKeyboard, getMachine().getKeyboard());
 
         // motherboard settings
-        mDisableACPI.setChecked(getMachine().getDisableAcpi() == 1);
-        mDisableHPET.setChecked(getMachine().getDisableHPET() == 1);
+        mSetFourCore.setChecked(getMachine().getSetFourCore() == 1);
+        mUnlockedUEFI.setChecked(getMachine().getUnlockedUEFI() == 1);
         if (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64)
             mDisableTSC.setChecked(getMachine().getDisableTSC() == 1);
         mEnableKVM.setChecked(getMachine().getEnableKVM() == 1);

@@ -172,10 +172,10 @@ public class MachineImporter {
 
                             // Other
                             case "DISABLE_ACPI":
-                                mach.setDisableACPI(Integer.parseInt(machineAttr[i].replace("\"", "")));
+                                mach.setSetFourCore(Integer.parseInt(machineAttr[i].replace("\"", "")));
                                 break;
                             case "DISABLE_HPET":
-                                mach.setDisableHPET(Integer.parseInt(machineAttr[i].replace("\"", "")));
+                                mach.setUnlockedUEFI(Integer.parseInt(machineAttr[i].replace("\"", "")));
                                 break;
                             case "DISABLE_TSC":
                                 mach.setDisableTSC(Integer.parseInt(machineAttr[i].replace("\"", "")));

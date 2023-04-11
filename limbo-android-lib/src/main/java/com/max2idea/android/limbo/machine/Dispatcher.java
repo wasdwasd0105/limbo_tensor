@@ -175,7 +175,7 @@ public class Dispatcher implements ViewListener {
                 getMachine().setNetworkCard(convertString(property, value));
                 break;
             case DISABLE_HPET:
-                getMachine().setDisableHPET(convertBoolean(property, value) ? 1 : 0);
+                getMachine().setUnlockedUEFI(convertBoolean(property, value) ? 1 : 0);
                 break;
             case DISABLE_TSC:
                 getMachine().setDisableTSC(convertBoolean(property, value) ? 1 : 0);
@@ -184,7 +184,7 @@ public class Dispatcher implements ViewListener {
                 getMachine().setVga(convertString(property, value));
                 break;
             case DISABLE_ACPI:
-                getMachine().setDisableACPI((convertBoolean(property, value) ? 1 : 0));
+                getMachine().setSetFourCore((convertBoolean(property, value) ? 1 : 0));
                 break;
             case DISABLE_FD_BOOT_CHK:
                 getMachine().setDisableFdBootChk((convertBoolean(property, value) ? 1 : 0));

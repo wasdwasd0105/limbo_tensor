@@ -42,10 +42,10 @@ public class Machine extends Observable {
     private int memory = 128;
     private int enableUEFI;
     private int enableKVM = 1;
-    private int disableACPI = 0;
-    private int disableHPET = 0;
+    private int SetFourCore = 0;
+    private int UnlockedUEFI = 0;
     private int disableFdBootChk = 0;
-    private int disableTSC = 1; //disabling TSC by default
+    private int disableTSC = 0; //disabling TSC by default
     // Storage
     private String hdaImagePath;
     private String hdbImagePath;
@@ -81,7 +81,7 @@ public class Machine extends Observable {
     private String DNS = "8.8.8.8";
 
     //display
-    private String vga = "virtio-gpu-pci";
+    private String vga = "virtio-ramfb";
     //sound
     private String soundCard = null;
     //extra qemu params
@@ -260,15 +260,15 @@ public class Machine extends Observable {
     }
 
 
-    public int getDisableACPI() {
-        return disableACPI;
+    public int getSetFourCore() {
+        return SetFourCore;
     }
 
-    void setDisableACPI(int disableACPI) {
-        if (this.disableACPI != disableACPI) {
-            this.disableACPI = disableACPI;
+    void setSetFourCore(int SetFourCore) {
+        if (this.SetFourCore != SetFourCore) {
+            this.SetFourCore = SetFourCore;
             setChanged();
-            notifyChanged(MachineProperty.DISABLE_ACPI, disableACPI);
+            notifyChanged(MachineProperty.DISABLE_ACPI, SetFourCore);
         }
 
     }
@@ -744,9 +744,9 @@ public class Machine extends Observable {
     void setDefaults() {
         arch = "ARM";
         machineType = "virt";
-        vga = "virtio-gpu-pci";
-        cpu = "max";
-        networkCard = "e1000";
+        vga = "virtio-ramfb";
+        cpu = "host";
+        networkCard = "virtio";
 
     }
 
@@ -786,19 +786,16 @@ public class Machine extends Observable {
         }
     }
 
-    public int getDisableAcpi() {
-        return disableACPI;
+
+    public int getUnlockedUEFI() {
+        return UnlockedUEFI;
     }
 
-    public int getDisableHPET() {
-        return disableHPET;
-    }
-
-    void setDisableHPET(int disableHPET) {
-        if (this.disableHPET != disableHPET) {
-            this.disableHPET = disableHPET;
+    void setUnlockedUEFI(int UnlockedUEFI) {
+        if (this.UnlockedUEFI != UnlockedUEFI) {
+            this.UnlockedUEFI = UnlockedUEFI;
             setChanged();
-            notifyChanged(MachineProperty.DISABLE_HPET, disableHPET);
+            notifyChanged(MachineProperty.DISABLE_HPET, UnlockedUEFI);
         }
 
     }

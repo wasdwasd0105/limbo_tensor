@@ -15,14 +15,14 @@ public class LimboEmuActivity extends LimboActivity {
         Config.clientClass = this.getClass();
         Config.enableKVM = true;
         Config.enableEmulatedFloppy = false;
-        Config.enableEmulatedSDCard = true;
+        Config.enableEmulatedSDCard = false;
 
         // It is UEFI option
         Config.enableUEFI = true;
         Config.machineFolder = Config.machineFolder + "other/arm_machines/";
         Config.osImages.put(getString(R.string.UbuntuArmLinux), new LinksManager.LinkInfo(getString(R.string.UbuntuArmLinux),
                 getString(R.string.UbuntuArmLinux),
-                "https://ubuntu.com/download/server/arm",
+                "https://cdimage.ubuntu.com/focal/daily-live/current/",
                 LinksManager.LinkType.ISO));
         super.onCreate(bundle);
         //TODO: change location to something that the user will have access outside of limbo
@@ -31,7 +31,6 @@ public class LimboEmuActivity extends LimboActivity {
     }
 
     protected void loadQEMULib(){
-
         try {
             System.loadLibrary("qemu-system-arm");
         } catch (Error ex) {

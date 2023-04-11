@@ -56,8 +56,8 @@ USB Passthrough Speed: Transfer a large file to Ubuntu VM
 
 >### Graphics
 1. Video Display
-    - virtio-gpu-pci: recommended on Linux
-    - ramfb: required to boot Windows (not working)
+    - virtio-ramfb: UTM's ramfb driver, can be used to run Windows and Linux
+    - virtio-gpu-pci: Linux only
     - nographic: disable display
 
 >### Network

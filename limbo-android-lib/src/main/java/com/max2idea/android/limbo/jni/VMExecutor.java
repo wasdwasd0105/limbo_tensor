@@ -326,7 +326,7 @@ private String getQemuLibrary() {
         if (getMachine().getCpuNum() > 1) {
             paramsList.add("-smp");
             String numCPU = String.valueOf(getMachine().getCpuNum());
-            paramsList.add("cpus=" + numCPU + ",sockets=1,cores=" + numCPU + ",threads=1");
+            paramsList.add(numCPU);
         }
         if (getMachineType() != null && !getMachineType().equals("Default")) {
             paramsList.add("-M");
@@ -341,22 +341,19 @@ private String getQemuLibrary() {
 
         //XXX: we disable tsc feature for x86 since some guests are kernel panicking
         // if the cpu has not specified by user we use the internal qemu32/64
-        if (getMachine().getDisableTSC() == 1 && (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64)) {
-            if (cpu == null || cpu.equals("Default")) {
-                if (LimboApplication.arch == Config.Arch.x86)
-                    cpu = "qemu32";
-                else if (LimboApplication.arch == Config.Arch.x86_64)
-                    cpu = "qemu64";
-            }
-            cpu += ",-tsc";
-        }
+        // if (getMachine().getDisableTSC() == 1 && (LimboApplication.arch == Config.Arch.x86 || LimboApplication.arch == Config.Arch.x86_64)) {
+        //     if (cpu == null || cpu.equals("Default")) {
+        //         if (LimboApplication.arch == Config.Arch.x86)
+        //             cpu = "qemu32";
+        //         else if (LimboApplication.arch == Config.Arch.x86_64)
+        //             cpu = "qemu64";
+        //     }
+        //     cpu += ",-tsc";
+        // }
 
-        if (getMachine().getDisableAcpi() != 0) {
-            paramsList.add("-no-acpi"); //disable ACPI
-        }
-        if (getMachine().getDisableHPET() != 0) {
-            paramsList.add("-no-hpet"); //        disable HPET
-        }
+        // if (getMachine().getSetFourCore() != 0) {
+        //     paramsList.add("-no-acpi"); //disable ACPI
+        // }
 
         if (cpu != null && !cpu.equals("Default")) {
             paramsList.add("-cpu");
@@ -371,19 +368,23 @@ private String getQemuLibrary() {
     private void addAccelerationOptions(ArrayList<String> paramsList) {
 
         // add UEFI option here
-        if (getMachine().getEnableUEFI() != 0) {
+        if (getMachine().getEnableUEFI() != 0 ) {
+
             String BasefileDir = LimboApplication.getBasefileDir();
-            String UEFIdir = BasefileDir + "/UEFI/edk2_no_var.img";
-            String UEFI_var_dir = BasefileDir + "/UEFI/var.img";
+            String UEFIdir;
+            if (getMachine().getUnlockedUEFI() != 0 ) {
+                UEFIdir = BasefileDir + "/edk2/edk2_qemu_aarch64.fd";
+            }else{
+                UEFIdir = BasefileDir + "/edk2/edk2_qemu_aarch64_nonvram.fd";
+            }
+            String UEFI_var_dir = BasefileDir + "/edk2/edk2_vars.fd";
             paramsList.add("-drive if=pflash,format=raw,unit=0,file=" + UEFIdir + ",readonly=on" );
-            paramsList.add("-drive if=pflash,format=raw,unit=1,file=" + UEFI_var_dir + ",readonly=on");
+            paramsList.add("-drive if=pflash,format=raw,unit=1,file=" + UEFI_var_dir);
         }
 
-        // XXX: we add the acceleration options after the extra params
-        // this is due to QEMU applying the first instance of this option
-        // so the extra params cannot override it.
         if (getMachine().getEnableKVM() != 0) {
             paramsList.add("-accel kvm");
+        }else{
             paramsList.add("-accel tcg,tb-size=1024");
         }
 
@@ -404,18 +405,18 @@ private String getQemuLibrary() {
         return machineType;
     }
 
-    private void addNetworkOptions(ArrayList<String> paramsList) throws Exception {
-        if (getMachine().getNetwork() == null || getMachine().getNetwork().equals("None")) {
-            paramsList.add("-nic none");
-        } else if (getMachine().getNetwork().equals("User")) {
-            paramsList.add("-device");
-            String NetworkCard = getMachine().getNetworkCard();
-            paramsList.add(NetworkCard + ",netdev=net0");
-
-            paramsList.add("-netdev");
-            paramsList.add("user,id=net0,dns=" + getMachine().getDNS());
-        }
-    }
+//    private void addNetworkOptions(ArrayList<String> paramsList) throws Exception {
+//        if (getMachine().getNetwork() == null || getMachine().getNetwork().equals("None")) {
+//            paramsList.add("-nic none");
+//        } else if (getMachine().getNetwork().equals("User")) {
+//            paramsList.add("-device");
+//            String NetworkCard = getMachine().getNetworkCard();
+//            paramsList.add(NetworkCard + ",netdev=net0");
+//
+//            paramsList.add("-netdev");
+//            paramsList.add("user,id=net0,dns=" + getMachine().getDNS());
+//        }
+//    }
 
 
     private void addUSBOptions(ArrayList<String> paramsList) throws Exception {
@@ -453,6 +454,52 @@ private String getQemuLibrary() {
         }
     }
 
+    private void addNetworkOptions(ArrayList<String> paramsList) throws Exception {
+
+        String network = getNetCfg();
+        if (network != null) {
+            paramsList.add("-net");
+            if (network.equals("user")) {
+                String netParams = network;
+                String hostFwd = getHostFwd();
+                if (hostFwd != null) {
+
+                    //hostfwd=[tcp|udp]:[hostaddr]:hostport-[guestaddr]:guestport{,hostfwd=...}
+                    // example forward ssh from guest port 2222 to guest port 22:
+                    // hostfwd=tcp::2222-:22
+                    if (hostFwd.startsWith("hostfwd")) {
+                        throw new Exception("Invalid format for Host Forward, should be: tcp:hostport1:guestport1,udp:hostport2:questport2,...");
+                    }
+                    String[] hostFwdParams = hostFwd.split(",");
+                    for (int i = 0; i < hostFwdParams.length; i++) {
+                        netParams += ",";
+                        String[] hostfwdparam = hostFwdParams[i].split(":");
+                        netParams += ("hostfwd=" + hostfwdparam[0] + "::" + hostfwdparam[1] + "-:" + hostfwdparam[2]);
+                    }
+                }
+                paramsList.add(netParams);
+            } else if (network.equals("tap")) {
+                paramsList.add("tap,vlan=0,ifname=tap0,script=no");
+            } else if (network.equals("none")) {
+                paramsList.add("none");
+            } else {
+                //Unknown interface
+                paramsList.add("none");
+            }
+        }
+
+        String networkCard = getNicCard();
+        if (networkCard != null) {
+            paramsList.add("-net");
+            String nicParams = "nic";
+            if (network.equals("tap"))
+                nicParams += ",vlan=0";
+            if (!networkCard.equals("Default"))
+                nicParams += (",model=" + networkCard);
+            paramsList.add(nicParams);
+        }
+    }
+
     private String getHostFwd() {
         if (getMachine().getNetwork().equals("User")) {
             if (getMachine().getHostFwd() != null && !getMachine().getHostFwd().equals(""))
@@ -485,16 +532,10 @@ private String getQemuLibrary() {
 
     private void addGraphicsOptions(ArrayList<String> paramsList) {
         if (getMachine().getVga() != null) {
-            if (getMachine().getVga().equals("Default")) {
-                //do nothing
-            } else if (getMachine().getVga().equals("virtio-gpu-pci")) {
-                paramsList.add("-device");
-                paramsList.add("virtio-gpu-pci");
-                //paramsList.add(getMachine().getVga());
-            } else if (getMachine().getVga().equals("nographic")) {
+            if (getMachine().getVga().equals("nographic")) {
                 paramsList.add("-nographic");
-            } else {
-                paramsList.add("-vga");
+            } else{
+                paramsList.add("-device");
                 paramsList.add(getMachine().getVga());
             }
         }
@@ -743,7 +784,14 @@ private String getQemuLibrary() {
             }
             Log.d(TAG, qemuExecDir + qemuArgv);
             Shell.Result result;
-            result = Shell.cmd(qemuExecDir + qemuArgv).exec();
+
+            if (getMachine().getSetFourCore() == 1){
+                // this will force qemu run on cpu 0-3, which can make sure firmware can boot successfully
+                result = Shell.cmd( "taskset f " +qemuExecDir + qemuArgv).exec();
+            }else{
+                // normal mode
+                result = Shell.cmd(qemuExecDir + qemuArgv).exec();
+            }
 
             if (result.isSuccess()){
                 return "VM shutdown";
@@ -787,13 +835,19 @@ private String getQemuLibrary() {
             @Override
             public void run() {
                 if (restart != 0) {
-                    QmpClient.sendCommand(QmpClient.getResetCommand());
+                    try {
+                        Log.d(TAG, "Trying to use all cpu cores! ");
+                        Process su = Runtime.getRuntime().exec("su -c set `pidof qemu-system-aarch64` && su -c taskset -pa ff $1");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     //XXX: Qmp command only halts the VM but doesn't exit so we use force close
                     //QmpClient.sendCommand(QmpClient.powerDown());
                     //stop(restart);
                     //need to be smarter here
                     try {
+                        Log.d(TAG, "Killing Qemu process!");
                         Process su = Runtime.getRuntime().exec("su -c killall qemu-system-aarch64");
                     } catch (IOException e) {
                         e.printStackTrace();

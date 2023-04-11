@@ -150,7 +150,7 @@
     <string name="faq">FAQ</string>
     <string name="open">Open</string>
     <string name="enableUEFI">Enable UEFI</string>
-    <string name="enableUEFIWarning">Warning! Enabling UEFI under Limbo is not fully tested. \nYou need to have an Android Devices with multi core CPU. If you don\'t know what this is press Cancel.\n\nIf you experience app crashing or freezing disable this option. Do you want to continue?</string>
+    <string name="enableUEFIWarning">Warning! Enabling UEFI is tested now. \n\n In protected KVM mode, you may not write UEFI nvram varible due to memory limitation. \n\n If you flashed a unlocked KVM kernel, you can choose Unlocked UEFI mode to enable nvram write. \n\n Set many CPU cores may increase crash possibility. Have mutliple tries.</string>
     <string name="UEFIHelp">UEFI Help</string>
     <string name="failToCreateMachineDirError">Could not create internal machine directory</string>
     <string name="externalVNCWarning">VNC connections are Unencrypted therefore NOT secure. Make sure you\'re on a trusted network!\n</string>
@@ -248,8 +248,8 @@
     <string name="ShutdownVM">Shutdown VM</string>
     <string name="ShutdownVMWarning">To avoid any corrupt data make sure you have already shutdown the Operating system from within the VM. Continue?</string>
     <string name="VMSuspended">VM Suspended</string>
-    <string name="ResetVM">Reset VM</string>
-    <string name="ResetVMWarning">To avoid any corrupt data make sure you have already shutdown the Operating system from within the VM. Continue?</string>
+    <string name="ResetVM">Set All CPU Cores</string>
+    <string name="ResetVMWarning">When enable 100% Success Mode Qemu will only use CPU 0-3 to avoid booting failure.\n\n After system booted up, you can enable all CPU cores to have best performance.\n\n Continue?</string>
     <string name="VMIsReset">VM is reset</string>
     <string name="VMRunning">VM Running</string>
     <string name="Paused">Paused</string>
@@ -258,7 +258,7 @@
     <string name="VNCPasswordMissing">VNC Password is missing in Settings!</string>
     <string name="VNCPasswordNotEnabledWarning">VNC Password is not enabled! Any application on your device can view and control your Virtual Machine! Make sure you trust your apps on your device otherwise set a password in settings. Continue?</string>
     <string name="ExternalVNCEnabledWarning">You have enabled External VNC. Anyone on the same network could read your VNC password and control your virtual machine! Make sure you trust your network. Continue?</string>
-    <string name="EnableKVMWarning">Warning! You will need an Android Device with the same architecture as the emulated Guest. Make sure you have installed an Android kernel with KVM support. If you do not know what this is press Cancel now.\n\nIf you experience crashes disable this option. Do you want to continue?</string>
+    <string name="EnableKVMWarning">Warning! You can enable pKVM if you have root access.\n\n You could not run Windows on protected KVM mode due to limitation.\n\n You can flash a modified kernel to enable full functional KVM and run Windows\n\n</string>
     <string name="EnableKVM">Enable KVM</string>
     <string name="server">Server</string>
     <string name="ExtraParams">Extra Params</string>

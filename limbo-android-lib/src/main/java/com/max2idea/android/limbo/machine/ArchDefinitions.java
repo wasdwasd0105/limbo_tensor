@@ -90,8 +90,8 @@ public class ArchDefinitions {
         }
 
         if (LimboApplication.arch == Config.Arch.arm || LimboApplication.arch == Config.Arch.arm64) {
+            vgaValues.add("virtio-ramfb");
             vgaValues.add("virtio-gpu-pci");
-            vgaValues.add("ramfb");
         }
 
         //XXX: some archs don't support vga on QEMU like SPARC64

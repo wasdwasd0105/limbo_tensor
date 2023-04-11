@@ -88,6 +88,7 @@
                 android:inputType="textFilter|textNoSuggestions"
                 android:singleLine="true"
                 android:text=""
+                android:hint="(BusID).(DeviceID)"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -124,6 +125,7 @@
                 android:inputType="textFilter|textNoSuggestions"
                 android:singleLine="true"
                 android:text=""
+                android:hint="(BusID).(DeviceID)"
                 android:textSize="15sp" />
         </LinearLayout>
 

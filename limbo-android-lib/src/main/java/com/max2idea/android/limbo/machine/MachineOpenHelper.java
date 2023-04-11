@@ -203,8 +203,8 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
         stateValues.put(MachineProperty.NETCONFIG.name(), machine.getNetwork());
         stateValues.put(MachineProperty.NICCONFIG.name(), machine.getNetworkCard());
         stateValues.put(MachineProperty.VGA.name(), machine.getVga());
-        stateValues.put(MachineProperty.DISABLE_ACPI.name(), machine.getDisableAcpi());
-        stateValues.put(MachineProperty.DISABLE_HPET.name(), machine.getDisableHPET());
+        stateValues.put(MachineProperty.DISABLE_ACPI.name(), machine.getSetFourCore());
+        stateValues.put(MachineProperty.DISABLE_HPET.name(), machine.getUnlockedUEFI());
         stateValues.put(MachineProperty.DISABLE_TSC.name(), machine.getDisableTSC());
         stateValues.put(MachineProperty.DISABLE_FD_BOOT_CHK.name(), machine.getDisableFdBootChk());
         stateValues.put(MachineProperty.SOUNDCARD.name(), machine.getSoundCard());
@@ -330,8 +330,8 @@ public class MachineOpenHelper extends SQLiteOpenHelper implements IMachineDatab
             myMachine.setNetworkCard(cur.getString(11));
             myMachine.setVga(cur.getString(12));
             myMachine.setSoundCard(cur.getString(13));
-            myMachine.setDisableACPI(cur.getInt(15));
-            myMachine.setDisableHPET(cur.getInt(16));
+            myMachine.setSetFourCore(cur.getInt(15));
+            myMachine.setUnlockedUEFI(cur.getInt(16));
             myMachine.setBootDevice(cur.getString(19));
             myMachine.setKernel(cur.getString(20));
             myMachine.setInitRd(cur.getString(21));
