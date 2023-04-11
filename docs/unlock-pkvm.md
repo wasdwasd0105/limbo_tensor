@@ -18,7 +18,7 @@ Current KVM status can be found using `cat /proc/cmdline`
 
 To use unprotected KVM, modify the boot cmdline from the Android kernel source. The KVM flag is configured in gki_defconfig -> CONFIG_CMDLINE. 
 
-In Pixel's kernel, these files are located at `aosp/arch/arm64/configs/gki_defconfig` for AOSP kernel and `private/gs-google/arch/arm64/configs/gki_defconfig` for Google Pixel kernel.
+These files are located at `aosp/arch/arm64/configs/gki_defconfig` for AOSP kernel and `private/gs-google/arch/arm64/configs/gki_defconfig` for Google Pixel kernel.
 
 Modify the config to "kvm-arm.mode=nvhe" and compile the kernel to get an unlock KVM.
 
