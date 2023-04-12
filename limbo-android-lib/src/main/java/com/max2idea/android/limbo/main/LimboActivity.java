@@ -2342,11 +2342,11 @@ public class LimboActivity extends AppCompatActivity
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         String[] arraySpinner = new String[5];
-        arraySpinner[0] = "1GB (Growable)";
-        arraySpinner[1] = "2GB (Growable)";
-        arraySpinner[2] = "4GB (Growable)";
-        arraySpinner[3] = "10 GB (Growable)";
-        arraySpinner[4] = "20 GB (Growable)";
+        arraySpinner[0] = "4 GB (Growable)";
+        arraySpinner[1] = "10 GB (Growable)";
+        arraySpinner[2] = "20 GB (Growable)";
+        arraySpinner[3] = "48 GB (Growable)";
+        arraySpinner[4] = "64 GB (Growable)";
 
         ArrayAdapter<?> sizeAdapter = new ArrayAdapter<Object>(this, R.layout.custom_spinner_item, arraySpinner);
         sizeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
@@ -2371,17 +2371,17 @@ public class LimboActivity extends AppCompatActivity
                 }
 
                 int sizeSel = size.getSelectedItemPosition();
-                String templateImage = "hd1g.qcow2";
+                String templateImage = "hd4g.qcow2";
                 if (sizeSel == 0) {
-                    templateImage = "hd1g.qcow2";
-                } else if (sizeSel == 1) {
-                    templateImage = "hd2g.qcow2";
-                } else if (sizeSel == 2) {
                     templateImage = "hd4g.qcow2";
-                } else if (sizeSel == 3) {
+                } else if (sizeSel == 1) {
                     templateImage = "hd10g.qcow2";
-                } else if (sizeSel == 4) {
+                } else if (sizeSel == 2) {
                     templateImage = "hd20g.qcow2";
+                } else if (sizeSel == 3) {
+                    templateImage = "hg48g.qcow2";
+                } else if (sizeSel == 4) {
+                    templateImage = "hg64g.qcow2";
                 }
 
                 String image = imageNameView.getText().toString();
