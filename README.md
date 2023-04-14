@@ -7,7 +7,7 @@ Limbo leverages the Kernel KVM feature from Exception Level 2 hypervisor privile
 Currently Google Tensor SoC supports this feature. ROOT access is REQUIRED to access Kernel KVM.
 
 
-Flash Unlock KVM [Kernel](https://github.com/wasdwasd0105/limbo_tensor/blob/master/docs/unlock-pkvm.md) can run Windows 11 on ARM [See guide here](https://github.com/wasdwasd0105/limbo_tensor/blob/master/docs/windows11arm.md)
+Flash Unlock KVM [Magisk module](https://github.com/wasdwasd0105/limbo_tensor/releases) can run Windows 11 on ARM [See guide here](https://github.com/wasdwasd0105/limbo_tensor/blob/master/docs/windows11arm.md)
 
 ![](https://github.com/wasdwasd0105/limbo_tensor/blob/master/pics/win11arm.png?raw=true)
 
