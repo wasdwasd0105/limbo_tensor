@@ -6,8 +6,7 @@ Limbo leverages the Kernel KVM feature from Exception Level 2 hypervisor privile
 
 Currently Google Tensor SoC supports this feature. ROOT access is REQUIRED to access Kernel KVM.
 
-Please buy me a coffee! [PayPal](https://www.paypal.com/donate/?business=UZAK3WFV233ML&no_recurring=0&item_name=Help+me+build+more+project%21&currency_code=USD) or [Ko-fi](https://Ko-fi.com/wasdwasd0105)
-
+**please consider becoming a [:heart: Sponsor via PayPal](https://www.paypal.com/donate/?business=UZAK3WFV233ML&no_recurring=0&item_name=Help+me+build+more+project%21&currency_code=USD) or support us via [:coffee: Ko-fi](https://ko-fi.com/wasdwasd0105).**  
 
 Many MTK Dimensity（天玑) phones can run this program if KVM modules are compiled into the kernel. See [here](https://www.bilibili.com/video/BV17k4y1E7W7/)
 
