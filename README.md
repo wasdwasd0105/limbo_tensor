@@ -1,10 +1,14 @@
 # QEMU KVM (Limbo) For Tensor-based devices 
 
-Limbo for Tensor is a QEMU-based hypervisor for KVM-enabled AArch64 devices such as Google Pixel 6 and 7 series.
+Discord: https://discord.gg/4hWgR6tpb7
 
-Limbo leverages the Kernel KVM feature from Exception Level 2 hypervisor privilege level.
+Limbo for Tensor is a QEMU-based hypervisor for KVM-enabled AArch64 devices such as Google Pixel 6,7,8 series.
 
-Currently Google Tensor SoC supports this feature. ROOT access is REQUIRED to access Kernel KVM.
+Need more test/verification on Pixel 8
+
+Limbo leverages the Kernel KVM feature from the Exception Level 2 hypervisor privilege level.
+
+Currently, Google Tensor SoC supports this feature. ROOT access is REQUIRED to access Kernel KVM.
 
 **please consider becoming a [:heart: Sponsor via PayPal](https://www.paypal.com/donate/?business=UZAK3WFV233ML&no_recurring=0&item_name=Help+me+build+more+project%21&currency_code=USD) or support us via [:coffee: Ko-fi](https://ko-fi.com/wasdwasd0105).**  
 
