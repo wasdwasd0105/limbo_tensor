@@ -1,7 +1,7 @@
 # Running Windows 11 ARM64 on Limbo
 
 ## Requirements
-1. Flash an unlocked KVM Magisk Moudle [download](https://github.com/wasdwasd0105/limbo_tensor/releases/download/v0.5.0/unlock_kvm_magisk.zip).
+1. Flash an unlocked KVM Magisk Module [download](https://github.com/wasdwasd0105/limbo_tensor/releases/download/v0.5.0/unlock_kvm_magisk.zip).
 2. Obtain a Windows system drive file.
 3. Acquire UTM's SPICE ARM64 driver [link](https://docs.getutm.app/guest-support/windows/).  
 
