@@ -2,7 +2,7 @@
 
 ### This guide assume you know how to compile android kernel 
 
-Pixel phones use a protected kernel-based virtual machine (pKVM), which is secure but limits low-level memory access. 
+Pixel phones use a protected kernel-based virtual machine (pKVM), which is secure but limits low-level memory access.
 
 As a result, when using Qemu, the guest OS is not allowed to write pflash, which causes edk2 to fail to write NVRAM. Additionally, Windows may encounter a Blue Screen of 0xc000021a when booting up.
 
