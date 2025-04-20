@@ -1,6 +1,6 @@
 # QEMU KVM (Limbo) For Tensor-based devices 
 
-Discord: https://discord.gg/4hWgR6tpb7
+Discord: [https://discord.gg/4hWgR6tpb7](https://discord.gg/gHJn4r5WtA)
 
 Limbo for Tensor is a QEMU-based hypervisor for KVM-enabled AArch64 devices such as Google Pixel 6,7,8 series.
 
