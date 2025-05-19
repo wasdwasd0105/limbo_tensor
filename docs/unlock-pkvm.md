@@ -18,7 +18,7 @@ Current KVM status can be found using `cat /proc/cmdline`
 
 
 
-## 1. You can install the Magik module
+## 1. You can install the Magik module (no longer work after Android 14)
 [https://github.com/wasdwasd0105/limbo_tensor/releases/](https://github.com/wasdwasd0105/limbo_tensor/releases/)
 
 ## 2. Guide to use fastboot to unlock pKVM
@@ -33,7 +33,7 @@ Run `fastboot oem cmdline show` (to check if its enabled now)
 If everything worked out, reboot to system and it should work,
 even though "`cat /proc/cmdline`" might still output _"kvm-arm.mode=protected"_
 
-NOTE: On pixel 8 (Pro/a) you need to be on Android 14 QPR3 or higher or the USB capabilities of the phone will be gone (except on the bootloader/ charging works anytime)
+NOTE: On pixel 8 (Pro/a) you need to be on Android 14 QPR3 or higher or the USB capabilities of the phone will be gone (except on the bootloader/ charging/ adb works anytime)
 
 If you want to disable pkvm again, run:
 
