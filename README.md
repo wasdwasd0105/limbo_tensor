@@ -104,7 +104,7 @@ Windows 11 VM
 - [x] virtio-ramfb for Windows (from UTM)
 - [x] FIX network options
 - [x] FIX nvram write option
-- [ ] GL support
+- [x] GL support
 - [ ] Add Audio options
 - [ ] DNS passthrough (current hardcoded under `/data/data/com.limbo.emu.main.arm/cache/limbo/resolv.conf`)
 - [ ] Support contorl qemu
