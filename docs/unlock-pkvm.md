@@ -30,6 +30,12 @@ Run `fastboot oem cmdline add kvm-arm.mode=nvhe` (to make sure that pkvm is acce
 
 Run `fastboot oem cmdline show` (to check if its enabled now)
 
+If you found your phone is buggy after unlocking the pkvm
+
+1. give root access to `com.android.shell`
+2. `adb shell su -c pm uninstall --user 0 com.google.android.appsearch.apk`
+com.google.android.appsearch.apk uses pkvm to provide isolated storage(Safe folder on Files). Google finally found a good place to use pkvm:D
+
 If everything worked out, reboot to system and it should work,
 even though "`cat /proc/cmdline`" might still output _"kvm-arm.mode=protected"_
 
