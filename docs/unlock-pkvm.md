@@ -2,7 +2,7 @@
 
 Pixel phones use a protected kernel-based virtual machine (pKVM), which is secure but limits low-level memory access. 
 
-As a result, when using Qemu, the guest OS is not allowed to write pflash, which causes edk2 to fail to write NVRAM. 
+As a result, when using QEMU, the guest OS is not allowed to write pflash, which causes edk2 to fail to write NVRAM. 
 
 ## If pKVM is not unlocked, the vnc player will show
 _**"Guest has not initialized the display (yet)."**_
@@ -18,7 +18,7 @@ Current KVM status can be found using `cat /proc/cmdline`
 
 
 
-## 1. You can install the Magik module (no longer work after Android 14)
+## 1. You can install the Magisk Module (no longer work after Android 14)
 [https://github.com/wasdwasd0105/limbo_tensor/releases/](https://github.com/wasdwasd0105/limbo_tensor/releases/)
 
 ## 2. Guide to use fastboot to unlock pKVM
@@ -34,7 +34,7 @@ If you found your phone is buggy after unlocking the pkvm
 
 1. give root access to `com.android.shell`
 2. `adb shell su -c pm uninstall --user 0 com.google.android.appsearch.apk`
-com.google.android.appsearch.apk uses pkvm to provide isolated storage(Safe folder on Files). Google finally found a good place to use pkvm:D
+com.google.android.appsearch.apk uses pkvm to provide isolated storage(Safe folder on Files). Google finally found a good place to use pkvm :D
 
 If everything worked out, reboot to system and it should work,
 even though "`cat /proc/cmdline`" might still output _"kvm-arm.mode=protected"_
